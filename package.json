@@ -1,6 +1,6 @@
 {
-  "name": "firstrest",
-  "version": "1.0.0",
+  "name": "Rate My Service",
+  "version": "0.0.1",
   "description": "",
   "main": "server.js",
   "scripts": {
