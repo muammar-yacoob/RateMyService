@@ -7,7 +7,14 @@ const getContact = (req, res) => {
 };
 
 const createContact = (req, res) => {
-    res.status(200).json({success: true, msg: `Post contact ${req.params.id}`});
+    console.log(req.body);
+    const {name, email} = req.body;
+
+    if (!name || !email) {
+      res.status(400);
+      throw new Error("All fields are mandatory !");
+    }
+    res.status(201).json({success: true, msg: `${req.body.name} created`});
 };
 
 const updateContact = (req, res) => {
