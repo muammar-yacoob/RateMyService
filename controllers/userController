@@ -1,7 +1,13 @@
 const asyncHandler = require('express-async-handler');
-const getAllUsers = (req, res) => {
-    res.status(200).json({success: true, msg: 'Show all users'});
-};
+const User = require('../models/userModel');
+
+//@desc Get all users
+//@route GET /api/users
+//@access Public
+const getAllUsers = asyncHandler(async (req, res) => {
+    const users = await User.find();
+    res.status(200).json(users);
+});
 
 const getUser = asyncHandler(async (req, res) => {
     res.status(200).json({success: true, msg: `Show user ${req.params.id}`});
