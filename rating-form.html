@@ -14,11 +14,13 @@
     </script>
 </head>
 <body>
-    <h2>Rate Our Service</h2>
+    <h2>Rate My Service</h2>
     <form action="http://localhost:5001/api/rate/65a6feb068f227551d31b2c0" method="post">
-        <input type="hidden" id="userId" name="userId" value="65a6feb068f227551d31b2c0">
+        <input type="hidden" name="userId" value="{{userId}}">
+        <input type="text" name="customerName" value="{{userName}}" required>
         <input type="hidden" id="rating" name="rating" value="0">
         
+        <label for="userId">How was your service today?</label><br>
         <div class="star-rating">
             <input id="star5" type="radio" name="stars" value="5" onclick="setRating(5)">
             <label for="star5"><i class="fa fa-star"></i></label>
@@ -34,8 +36,6 @@
 
         <br>
         <input type="text" name="customerName" placeholder="Your Name" required>
-        <br>
-        <input type="text" name="geoLocation" placeholder="Location">
         <br>
         <textarea name="comments" placeholder="Comments"></textarea>
         <br>

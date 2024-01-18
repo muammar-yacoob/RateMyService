@@ -6,9 +6,9 @@ const { serveForm, getRatingByUserId, postRating, updateRating } = require('../c
 router.get('/:userId/form', serveForm);
 
 // Routes for user ratings
-// router.route('/:userId')
-//     .get(getRatingByUserId)
-//     .post(postRating)
-//     .put(updateRating);
+router.route('/:userId')
+    .get(getRatingByUserId)
+    .post(postRating)
+    .put(updateRating);
 
 module.exports = router;
