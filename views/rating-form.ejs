@@ -6,7 +6,8 @@
     <title>Rate Service</title>
     <link rel="icon" href="img/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
-    <link rel="stylesheet" href="css/rating.css">
+    <link rel="stylesheet" href="/css/rating.css">
+
     <script>
         function setRating(rating) {
             document.getElementById('rating').value = rating;
@@ -15,12 +16,12 @@
 </head>
 <body>
     <h2>Rate My Service</h2>
-    <form action="http://localhost:5001/api/rate/65a6feb068f227551d31b2c0" method="post">
-        <input type="hidden" name="userId" value="{{userId}}">
-        <input type="text" name="customerName" value="{{userName}}" required>
+    <form action="http://localhost:5001/api/rate/<%= userId %>" method="post">
+        <input type="hidden" name="userId" value="<%= userId %>">
         <input type="hidden" id="rating" name="rating" value="0">
         
         <label for="userId">How was your service today?</label><br>
+        <p>User Name: <%= userName %></p>
         <div class="star-rating">
             <input id="star5" type="radio" name="stars" value="5" onclick="setRating(5)">
             <label for="star5"><i class="fa fa-star"></i></label>

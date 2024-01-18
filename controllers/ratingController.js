@@ -13,6 +13,7 @@ const serveForm = asyncHandler(async (req, res, next) => {
             throw new Error('User not found');
         }
         res.render('rating-form', { userId: userId, userName: user.name });
+
     } catch (err) {
         next(err); // Pass the error to the error handler
     }
