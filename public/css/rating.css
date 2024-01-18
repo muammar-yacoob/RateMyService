@@ -84,3 +84,18 @@ button:hover {
     background-color: #e09428;
 }
 
+.thank-you-container {
+    text-align: center;
+    padding-top: 100px;
+    padding-bottom: 50px; /* Add bottom padding for spacing */
+}
+
+.thank-you-image {
+    max-width: 100%;
+    height: auto;
+    margin-top: 20px;
+    display: block; /* Ensures the image is block level for centering */
+    margin-left: auto;
+    margin-right: auto; /* Auto margins for horizontal centering */
+    border-radius: 10px;
+}

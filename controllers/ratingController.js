@@ -1,6 +1,10 @@
 const asyncHandler = require('express-async-handler');
 const Ratings = require('../models/ratingModel');
 const User = require('../models/userModel');
+const fs = require('fs');
+const path = require('path');
+
+const directoryPath = path.join(__dirname, '../public/res/imgs/thankyou');
 
 //@desc Serve the rating form
 //@route GET /api/rate/:userId/form
@@ -51,7 +55,13 @@ const postRating = asyncHandler(async (req, res, next) => {
         // console.log(newRating);
         // res.status(201).json(newRating);
         console.log("redirect to thank you page...");
-        res.render('thank-you');
+
+        let thankYouImages = fs.readdirSync(directoryPath);
+        const randomIndex = Math.floor(Math.random() * thankYouImages.length);
+        const selectedImage = thankYouImages[randomIndex];
+        res.render('thank-you', { selectedImage: `/res/imgs/thankyou/${selectedImage}` });
+
+        // res.render('thank-you');
     } catch (err) {
         next(err);
     }
