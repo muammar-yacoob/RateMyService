@@ -24,7 +24,7 @@ const ratingsSchema = new mongoose.Schema({
         // min_length: [8, 'Email cannot be less than 8 characters'],
         // max_length: [50, 'Email cannot be more than 50 characters']
     },
-    geoLocation: {
+    ipAddress: {
         type: String,
         required: false
         //trim: true,
