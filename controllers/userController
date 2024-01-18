@@ -15,11 +15,11 @@ const getAllUsers = asyncHandler(async (req, res) => {
 });
 
 //@desc Get a user
-//@route GET /api/users/:email
+//@route GET /api/users/:userId
 //@access Public
 const getUser = asyncHandler(async (req, res) => {
     try{
-        const user = await User.findOne({email: req.params.email});
+        const user = await User.findOne({userId: req.params.userId});
         res.status(200).json(user);
     }
     catch(err){
