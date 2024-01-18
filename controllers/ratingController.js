@@ -48,7 +48,10 @@ const postRating = asyncHandler(async (req, res, next) => {
         const ipAddress = req.ip || req.socket.remoteAddress;
         const ratingData = { userId, customerName, rating, ipAddress, comments };
         const newRating = await Ratings.create(ratingData);
-        res.status(201).json(newRating);
+        // console.log(newRating);
+        // res.status(201).json(newRating);
+        console.log("redirect to thank you page...");
+        res.render('thank-you');
     } catch (err) {
         next(err);
     }
@@ -64,6 +67,7 @@ const updateRating = asyncHandler(async (req, res, next) => {
             throw new Error('Rating not found');
         }
         res.status(200).json(rating);
+        res.redirect('thank-you');
     } catch (err) {
         next(err);
     }

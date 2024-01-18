@@ -3,6 +3,7 @@ const connectDb = require('./config/dbConnection');
 const errorHandler = require('./middleware/errorHandler');
 const dotenv = require('dotenv').config();
 
+
 // Initialize the Express application
 const app = express();
 
@@ -18,6 +19,7 @@ const PORT = process.env.PORT || 5000;
 
 // Middleware for parsing JSON and serving static files
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 // Routes
