@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rate Service</title>
+    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="css/rating.css">
+    <script>
+        function setRating(rating) {
+            document.getElementById('rating').value = rating;
+        }
+    </script>
+</head>
+<body>
+    <h2>Rate Our Service</h2>
+    <form action="http://localhost:5001/api/rate/65a6feb068f227551d31b2c0" method="post">
+        <input type="hidden" id="userId" name="userId" value="65a6feb068f227551d31b2c0">
+        <input type="hidden" id="rating" name="rating" value="0">
+        
+        <div class="star-rating">
+            <input id="star5" type="radio" name="stars" value="5" onclick="setRating(5)">
+            <label for="star5"><i class="fa fa-star"></i></label>
+            <input id="star4" type="radio" name="stars" value="4" onclick="setRating(4)">
+            <label for="star4"><i class="fa fa-star"></i></label>
+            <input id="star3" type="radio" name="stars" value="3" onclick="setRating(3)">
+            <label for="star3"><i class="fa fa-star"></i></label>
+            <input id="star2" type="radio" name="stars" value="2" onclick="setRating(2)">
+            <label for="star2"><i class="fa fa-star"></i></label>
+            <input id="star1" type="radio" name="stars" value="1" onclick="setRating(1)">
+            <label for="star1"><i class="fa fa-star"></i></label>
+        </div>
+
+        <br>
+        <input type="text" name="customerName" placeholder="Your Name" required>
+        <br>
+        <input type="text" name="geoLocation" placeholder="Location">
+        <br>
+        <textarea name="comments" placeholder="Comments"></textarea>
+        <br>
+        <button type="submit">Submit Rating</button>
+    </form>
+</body>
+</html>
