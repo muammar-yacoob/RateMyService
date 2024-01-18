@@ -6,10 +6,10 @@ const ratingsSchema = new mongoose.Schema({
     },
     customerName: {
         type: String,
-        required: true
-        //trim: true,
-        // min_length: 3,
-        // max_length: 50
+        required: true,
+        minLength: 3,
+        maxLength: 20
+
     },
     rating: {
         type: Number,
@@ -19,17 +19,13 @@ const ratingsSchema = new mongoose.Schema({
     },
     comments: {
         type: String,
-        required: false
-        //trim: true,
-        // min_length: [8, 'Email cannot be less than 8 characters'],
-        // max_length: [50, 'Email cannot be more than 50 characters']
+        required: false,
+        max_length: 200
     },
-    geoLocation: {
+    ipAddress: {
         type: String,
         required: false
         //trim: true,
-        // min_length: [8, 'Email cannot be less than 8 characters'],
-        // max_length: [50, 'Email cannot be more than 50 characters']
     },
     ratingDate: {
         type: Date,
