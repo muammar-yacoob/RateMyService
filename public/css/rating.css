@@ -1,29 +1,68 @@
 body {
     color: #fff;
-    background-color: rgb(2, 2, 2);
+    background-color: #121212; /* Darker shade for background */
     background-image: url('/res/imgs/bg.jpg');
     background-size: cover;
     background-position: center;
-    /* background-size: 100% 100%; */
-    /* background-repeat: no-repeat; */
-    font-family: Arial, sans-serif;
+    font-family: 'Roboto', Arial, sans-serif; /* Modern font */
+    line-height: 1.6;
 }
 
-.star-rating {
-    direction: rtl;
-    display: inline-block;
-    padding: 20px;
+h1 {
+    color: #f5a643; /* Accent color for headers */
+    text-align: center;
 }
 
-.star-rating input[type="radio"] {
-    display: none;
+p {
+    margin-bottom: 1em;
+    font-size: 1.1em;
 }
 
-.star-rating label {
-    color: #ccc;
-    font-size: 30px;
-    padding: 0;
+label {
+    display: block;
+    margin: 20px 0;
+    font-size: 1.2em;
+}
+
+#fetchRatings {
+    background-color: #f5a643;
+    color: #000;
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
     cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+#fetchRatings:hover {
+    background-color: #e09428;
+    transform: translateY(-2px); /* Slight lift on hover */
+}
+
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 20px;
+}
+
+th, td {
+    padding: 10px;
+    border: 1px solid #444; /* Lighter borders for readability */
+    text-align: left;
+}
+
+th {
+    background-color: #333;
+    color: #fff;
+}
+
+tbody tr:nth-child(odd) {
+    background-color: #242424; /* Zebra striping for rows */
+}
+
+tbody tr:hover {
+    background-color: #333; /* Hover effect for rows */
 }
 
 .star-rating label:hover,
@@ -37,36 +76,21 @@ form {
     padding: 20px;
     border-radius: 10px;
     max-width: 400px;
-    margin: auto;
+    margin: 20px auto;
 }
 
 input, textarea, button {
-    width: calc(100%); /* Adjust width to account for padding */
+    width: 100%;
     padding: 10px;
     margin-bottom: 10px;
     border-radius: 5px;
     border: none;
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    box-sizing: border-box;
 }
 
 input[type="text"], textarea {
     background-color: #333;
     color: #fff;
-}
-
-button {
-    background-color: #555;
-    color: #fff;
-    cursor: pointer;
-}
-
-button:hover {
-    background-color: #777;
-}
-
-.thank-you-container {
-    text-align: center;
-    padding-top: 100px;
 }
 
 .home-button {
@@ -86,17 +110,16 @@ button:hover {
 
 .thank-you-container {
     text-align: center;
-    padding-top: 100px;
-    padding-bottom: 50px; /* Add bottom padding for spacing */
+    padding: 50px 20px;
 }
 
 .thank-you-image {
     max-width: 100%;
     height: auto;
     margin-top: 20px;
-    display: block; /* Ensures the image is block level for centering */
+    display: block;
     margin-left: auto;
-    margin-right: auto; /* Auto margins for horizontal centering */
+    margin-right: auto;
     border-radius: 10px;
 }
 
@@ -107,5 +130,55 @@ button:hover {
     width: 100%;
     height: 100%;
     background: transparent;
-    pointer-events: none; /* Allows clicks to pass through to the anchor */
+    pointer-events: none;
+}
+
+.sidebar {
+    width: 250px;
+    height: 100vh;
+    background-color: #333;
+    padding: 20px;
+    position: fixed;
+    left: 0;
+    top: 0;
+    text-align: center;
+}
+
+.profile-pic {
+    width: 100px;
+    height: 100px;
+    border-radius: 50%;
+    margin-bottom: 20px;
+}
+
+.sidebar h3, .sidebar p {
+    color: #fff;
+}
+
+.sidebar-button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    background-color: #555;
+    color: #fff;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    transition: background-color 0.3s;
+}
+
+.sidebar-button:hover {
+    background-color: #777;
+}
+
+.main-content {
+    margin-left: 250px; /* same as sidebar width */
+    padding: 20px;
+}
+
+.ratings-section {
+    background-color: rgba(0, 0, 0, 0.8);
+    padding: 20px;
+    border-radius: 10px;
+    margin-top: 20px;
 }

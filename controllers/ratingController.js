@@ -22,13 +22,26 @@ const serveForm = asyncHandler(async (req, res, next) => {
         next(err); // Pass the error to the error handler
     }
 });
+const serveUserProfile = asyncHandler(async (req, res, next) => {
+    const email = req.params.email;
+    try {
+        const user = await User.findOne({ email: email });
+        if (!user) {
+            throw new Error('User not found');
+        }
+        res.render('user-profile', { user: user });
 
-//@desc Get a rating by userId
+    } catch (err) {
+        next(err); // Pass the error to the error handler
+    }
+});
+
+//@desc Get all ratings by userId
 //@route GET /api/rate/:userId
 //@access Public
-const getRatingByUserId = asyncHandler(async (req, res, next) => {
+const getRatingsByUserId = asyncHandler(async (req, res, next) => {
     try {
-        const ratings = await Ratings.findOne({ userId: req.params.userId });
+        const ratings = await Ratings.find({ userId: req.params.userId });
         if (!ratings) {
             throw new Error('No ratings found for this user');
         }
@@ -83,4 +96,4 @@ const updateRating = asyncHandler(async (req, res, next) => {
     }
 });
 
-module.exports = { serveForm, getRatingByUserId, postRating, updateRating };
+module.exports = { serveForm, getRatingsByUserId, postRating, updateRating , serveUserProfile};
