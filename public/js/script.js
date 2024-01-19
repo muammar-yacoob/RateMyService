@@ -27,24 +27,48 @@ function displayRatings(ratings) {
     const tableBody = document.getElementById('ratingsTable').getElementsByTagName('tbody')[0];
     tableBody.innerHTML = ''; // Clear existing rows
 
+    let totalRatings = 0;
+    let avgRating = 0;
+    let ratingCount = 0;
+
     ratings.forEach(rating => {
         const row = tableBody.insertRow();
         row.insertCell(0).textContent = rating.customerName;
         row.insertCell(1).textContent = rating.rating;
         row.insertCell(2).textContent = rating.comments;
-        row.insertCell(3).textContent = rating.ipAddress;
-        row.insertCell(4).textContent = new Date(rating.ratingDate).toLocaleString();
+        row.insertCell(3).textContent = new Date(rating.ratingDate).toLocaleDateString();
+        // row.insertCell(4).textContent = rating.ipAddress;
+
+        totalRatings += rating.rating; // Sum up the ratings
+        ratingCount++; // Count the number of ratings
     });
+
+    // Append a total row
+    const totalRow = tableBody.insertRow();
+    avgRating
+    totalRow.insertCell(0).textContent = `Total: ${ratingCount} ratings`;
+    totalRow.insertCell(1).textContent = `Average: ${Math.round(totalRatings / ratingCount * 10) / 10}`
+    totalRow.insertCell(2); // Leave empty
+    totalRow.insertCell(3); // Leave empty
+    // totalRow.insertCell(4); // Leave empty
+
+    // Optionally, you can style the total row differently
+    totalRow.style.fontWeight = 'bold';
 }
 
 function displayAverageRating(ratings) {
     if (ratings.length === 0) return;
 
-    const avgRating = ratings.reduce((acc, r) => acc + r.rating, 0) / ratings.length;
+    const totalRatingsCount = ratings.length;
+    const avgRating = ratings.reduce((acc, r) => acc + r.rating, 0) / totalRatingsCount;
+    const avgRatingRounded = Math.round(avgRating * 10) / 10; // Round to one decimal place
     const avgRatingStars = generateStars(avgRating);
 
     document.getElementById('avgRatingStars').innerHTML = avgRatingStars;
+    document.getElementById('numericAvgRating').textContent = `Average Rating: ${avgRatingRounded} (${totalRatingsCount} ratings)`;
 }
+
+
 
 function generateStars(avgRating) {
     let stars = '';

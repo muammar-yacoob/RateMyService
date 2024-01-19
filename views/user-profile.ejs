@@ -10,7 +10,8 @@
         <img src="/res/imgs/defaultProfile.jpg" alt="Profile Picture" class="profile-pic">
         <h3><%= user.name %></h3>
         <p>Current Workplace: <%= user.workplace %></p>
-        <div id="avgRatingStars"></div> <!-- Container for average rating stars -->
+        <div id="avgRatingStars"></div> 
+        <div id="numericAvgRating"></div>
         <button class="sidebar-button">Settings</button>
         <button class="sidebar-button">Sign Out</button>
     </div>
@@ -28,8 +29,8 @@
                         <th>Customer Name</th>
                         <th>Rating</th>
                         <th>Comments</th>
-                        <th>IP Address</th>
                         <th>Rating Date</th>
+                        <!-- <th>IP Address</th> -->
                     </tr>
                 </thead>
                 <tbody>
