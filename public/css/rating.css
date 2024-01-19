@@ -187,3 +187,20 @@ input[type="text"], textarea {
 .fa-star, .fa-star-half-alt, .fa-star-o {
     color: gold;
 }
+
+#ratingsTable {
+    width: auto;
+    table-layout: auto;
+}
+
+#ratingsTable td, #ratingsTable th {
+    white-space: pre-wrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    /* max-width: 800px; Adjust as necessary */
+}
+
+#ratingsTable th {
+    min-width: 100px; /* Adjust as necessary */
+}
+
