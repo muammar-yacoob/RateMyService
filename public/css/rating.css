@@ -65,13 +65,10 @@ tbody tr:hover {
     background-color: #333; /* Hover effect for rows */
 }
 
-.star-rating label:hover,
-.star-rating label:hover ~ label,
-.star-rating input[type="radio"]:checked ~ label {
-    color: #f5a643;
-}
+
 
 form {
+    text-align: center; /* Center align the form elements */
     background-color: rgba(0, 0, 0, 0.8);
     padding: 20px;
     border-radius: 10px;
@@ -183,11 +180,6 @@ input[type="text"], textarea {
     margin-top: 20px;
 }
 
-/* Star Ratings */
-.fa-star, .fa-star-half-alt, .fa-star-o {
-    color: gold;
-}
-
 #ratingsTable {
     width: auto;
     table-layout: auto;
@@ -204,3 +196,30 @@ input[type="text"], textarea {
     min-width: 100px; /* Adjust as necessary */
 }
 
+/* Star Rating Styles */
+.client-star-rating {
+    direction: rtl;
+    display: inline-flex;
+    font-size: 36px; /* Increase the size of the stars */
+    margin-bottom: 20px;
+}
+
+.client-star-rating input[type="radio"] {
+    display: none;
+}
+
+.client-star-rating label {
+    cursor: pointer;
+    color: #ccc;
+}
+
+.client-star-rating input[type="radio"]:checked ~ label,
+.client-star-rating label:hover,
+.client-star-rating label:hover ~ label {
+    color: #f5a643;
+}
+
+#ratingMessage {
+    color: #ffffff;
+    margin-top: 10px;
+}

@@ -13,9 +13,9 @@
     <form action="http://localhost:5001/api/rate/<%= userId %>" method="post" enctype="application/x-www-form-urlencoded">
         <input type="hidden" name="userId" value="<%= userId %>">
     
-        <label for="userId">How was your service by <%= userName %> today?</label><br>
-        <div class="star-rating">
-            <input type="radio" id="star5" name="rating" value="5">
+        <label for="userId">How was your service by <%= userName %> today?</label>
+        <div class="client-star-rating">
+            <input type="radio" id="star5" name="rating" value="5" checked >
             <label for="star5"><i class="fa fa-star"></i></label>
             <input type="radio" id="star4" name="rating" value="4">
             <label for="star4"><i class="fa fa-star"></i></label>
@@ -26,15 +26,33 @@
             <input type="radio" id="star1" name="rating" value="1">
             <label for="star1"><i class="fa fa-star"></i></label>
         </div>
-        
+        <div id="ratingMessage"></div>
+
     
         <br>
         <input type="text" name="customerName" placeholder="Your Name" required>
         <br>
         <textarea name="comments" placeholder="Comments"></textarea>
-        <br>
-        <button type="submit">Submit Rating</button>
+        <button id="fetchRatings" type="submit">Submit Rating</button>
     </form>
+    
+    <script>
+        document.querySelectorAll('.client-star-rating input').forEach(input => {
+            input.addEventListener('change', function() {
+                const ratingValue = this.value;
+                let message = '';
+                switch (ratingValue) {
+                    case '5': message = 'Excellent! We are thrilled!'; break;
+                    case '4': message = 'Great! Thank you!'; break;
+                    case '3': message = 'Good, but we can do better.'; break;
+                    case '2': message = 'Sorry to hear that. How can we improve?'; break;
+                    case '1': message = 'We will work on being better.'; break;
+                    default:  message = '';
+                }
+                document.getElementById('ratingMessage').textContent = message;
+            });
+        });
+    </script>
     
 </body>
 </html>
