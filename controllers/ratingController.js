@@ -28,7 +28,7 @@ const serveForm = asyncHandler(async (req, res, next) => {
 //@access Public
 const getRatingByUserId = asyncHandler(async (req, res, next) => {
     try {
-        const ratings = await Ratings.findOne({ userId: req.params.userId });
+        const ratings = await Ratings.find({ userId: req.params.userId });
         if (!ratings) {
             throw new Error('No ratings found for this user');
         }
@@ -83,4 +83,21 @@ const updateRating = asyncHandler(async (req, res, next) => {
     }
 });
 
-module.exports = { serveForm, getRatingByUserId, postRating, updateRating };
+//@desc Delete a rating
+//@route DELETE /api/rate/:userId
+//@access Private
+const deleteAllRatings = asyncHandler(async (req, res, next) => {
+    try {
+        const ratings = await Ratings.find({ userId: req.params.userId });
+        if (!ratings || ratings.length === 0) {
+            throw new Error(`No ratings found for ${req.params.userId}`);
+        }
+        const userName = ratings[0].userName;
+        await Ratings.deleteMany({ userId: req.params.userId });
+        res.status(200).json({ message: `All ${userName} ratings were deleted successfully!` });
+    } catch (err) {
+        next(err);
+    }
+});
+
+module.exports = { serveForm, getRatingByUserId, postRating, updateRating, deleteAllRatings };
