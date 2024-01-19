@@ -134,7 +134,7 @@ input[type="text"], textarea {
 }
 
 .sidebar {
-    width: 250px;
+    width: 200px;
     height: 100vh;
     background-color: #333;
     padding: 20px;
@@ -159,7 +159,7 @@ input[type="text"], textarea {
     width: 100%;
     padding: 10px;
     margin-bottom: 10px;
-    background-color: #555;
+    background-color: #f5a643;
     color: #fff;
     border: none;
     border-radius: 5px;
@@ -168,7 +168,7 @@ input[type="text"], textarea {
 }
 
 .sidebar-button:hover {
-    background-color: #777;
+    background-color: #e09428;
 }
 
 .main-content {

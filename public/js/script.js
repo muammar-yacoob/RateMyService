@@ -65,7 +65,7 @@ function displayAverageRating(ratings) {
     const avgRatingStars = generateStars(avgRating);
 
     document.getElementById('avgRatingStars').innerHTML = avgRatingStars;
-    document.getElementById('numericAvgRating').textContent = `Average Rating: ${avgRatingRounded} (${totalRatingsCount} ratings)`;
+    document.getElementById('numericAvgRating').textContent = `Avg: ${avgRatingRounded} (${totalRatingsCount} ratings)`;
 }
 
 
