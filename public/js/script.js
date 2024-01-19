@@ -1,9 +1,10 @@
 document.addEventListener("DOMContentLoaded", function () {
     document.body.addEventListener("click", function (e) {
-        if (e.target && e.target.classList.contains("home-button")) {
+        const refreshButton = e.target.closest(".refresh-button");
+        if (refreshButton) {
             e.preventDefault(); // Prevent the default link behavior
-            
-            const action = e.target.getAttribute("data-action");
+
+            const action = refreshButton.getAttribute("data-action");
             if (action === "reload") {
                 location.reload();  // Reload the page
             }
