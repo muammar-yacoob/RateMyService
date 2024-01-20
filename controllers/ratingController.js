@@ -22,11 +22,24 @@ const serveForm = asyncHandler(async (req, res, next) => {
         next(err); // Pass the error to the error handler
     }
 });
+const serveUserProfile = asyncHandler(async (req, res, next) => {
+    const email = req.params.email;
+    try {
+        const user = await User.findOne({ email: email });
+        if (!user) {
+            throw new Error('User not found');
+        }
+        res.render('user-profile', { user: user });
 
-//@desc Get a rating by userId
+    } catch (err) {
+        next(err); // Pass the error to the error handler
+    }
+});
+
+//@desc Get all ratings by userId
 //@route GET /api/rate/:userId
 //@access Public
-const getRatingByUserId = asyncHandler(async (req, res, next) => {
+const getRatingsByUserId = asyncHandler(async (req, res, next) => {
     try {
         const ratings = await Ratings.find({ userId: req.params.userId });
         if (!ratings) {
@@ -83,21 +96,4 @@ const updateRating = asyncHandler(async (req, res, next) => {
     }
 });
 
-//@desc Delete a rating
-//@route DELETE /api/rate/:userId
-//@access Private
-const deleteAllRatings = asyncHandler(async (req, res, next) => {
-    try {
-        const ratings = await Ratings.find({ userId: req.params.userId });
-        if (!ratings || ratings.length === 0) {
-            throw new Error(`No ratings found for ${req.params.userId}`);
-        }
-        const userName = ratings[0].userName;
-        await Ratings.deleteMany({ userId: req.params.userId });
-        res.status(200).json({ message: `All ${userName} ratings were deleted successfully!` });
-    } catch (err) {
-        next(err);
-    }
-});
-
-module.exports = { serveForm, getRatingByUserId, postRating, updateRating, deleteAllRatings };
+module.exports = { serveForm, getRatingsByUserId, postRating, updateRating , serveUserProfile};

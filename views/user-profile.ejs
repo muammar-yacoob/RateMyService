@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>User Profile</title>
+    <link rel="stylesheet" href="/css/rating.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+</head>
+<body>
+    <div class="sidebar">
+        <img src="/res/imgs/defaultProfile.jpg" alt="Profile Picture" class="profile-pic">
+        <h3><%= user.name %></h3>
+        <p>Current Workplace: <%= user.workplace %></p>
+        <div id="avgRatingStars"></div> 
+        <div id="numericAvgRating"></div>
+        <button class="sidebar-button">Settings</button>
+        <button class="sidebar-button">Sign Out</button>
+    </div>
+
+    <div class="main-content">
+        <h1>Welcome, <%= user.name %>!</h1>
+
+        <div class="ratings-section">
+            <label>Here are your ratings:</label>
+            <button id="fetchRatings" data-userid="<%= user._id %>" onclick="fetchAndDisplayRatings(this)">Fetch Ratings</button>
+
+            <table id="ratingsTable">
+                <thead>
+                    <tr>
+                        <th>Customer Name</th>
+                        <th>Rating</th>
+                        <th>Comments</th>
+                        <th>Rating Date</th>
+                        <!-- <th>IP Address</th> -->
+                    </tr>
+                </thead>
+                <tbody>
+                    <!-- Ratings will be populated here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+    <script src="/js/script.js"></script>
+    <script>
+        // Invoke fetching and displaying ratings on page load
+        window.onload = function() {
+            const fetchButton = document.getElementById('fetchRatings');
+            if (fetchButton) {
+                fetchAndDisplayRatings(fetchButton);
+            }
+        };
+    </script>
+</body>
+</html>

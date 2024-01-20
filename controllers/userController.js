@@ -73,4 +73,5 @@ const deleteUser = asyncHandler(async(req, res) => {
     }
 });
 
-module.exports = {getAllUsers, getUser, createUser, updateUser,deleteUser};
+
+module.exports = {getAllUsers, getUser, createUser, updateUser, deleteUser};
