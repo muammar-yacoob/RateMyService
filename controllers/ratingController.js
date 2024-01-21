@@ -1,6 +1,10 @@
 const asyncHandler = require('express-async-handler');
 const Ratings = require('../models/ratingModel');
-const User = require('../models/userModel');
+
+const fs = require('fs');
+const path = require('path');
+const directoryPath = path.join(__dirname, '../public/res/imgs/thankyou');
+
 
 //@desc Get all ratings by userId
 //@route GET /api/rate/:userId
@@ -17,41 +21,21 @@ const getRatingsByUserId = asyncHandler(async (req, res, next) => {
     }
 });
 
-//@desc Post a rating
-//@route POST /api/rate/:userId
-//@access Public
-const postRating = asyncHandler(async (req, res, next) => {
-    const userId = req.params.userId;
-    const { customerName, rating, comments } = req.body;
 
-    if (!userId || !customerName || !rating) {
-        throw new Error("Missing data!");
-    }
-    try {
-        const ipAddress = req.ip || req.socket.remoteAddress;
-        const ratingData = { userId, customerName, rating, ipAddress, comments };
-        const newRating = await Ratings.create(ratingData);
-        console.log("redirect to thank you page...");
-        res.redirect('thank-you');
-    } catch (err) {
-        next(err);
-    }
+const getThankyouImage = asyncHandler(async (req, res) => {
+        try {
+            fs.readdir(directoryPath, (err, files) => {
+            if (err) {
+                res.status(500).send('Error reading images');
+                return;
+            }
+            const randomIndex = Math.floor(Math.random() * files.length);
+            const selectedImage = files[randomIndex];
+            res.json({ imageUrl: `/res/imgs/thankyou/${selectedImage}` });
+        });}
+        catch (err) {
+            next(err);
+        }   
 });
 
-//@desc Update a rating
-//@route PUT /api/rate/:userId
-//@access Public
-const updateRating = asyncHandler(async (req, res, next) => {
-    try {
-        const rating = await Ratings.findOneAndUpdate({ userId: req.params.userId }, req.body, { new: true });
-        if (!rating) {
-            throw new Error('Rating not found');
-        }
-        res.status(200).json(rating);
-        res.redirect('thank-you');
-    } catch (err) {
-        next(err);
-    }
-});
-
-module.exports = {  getRatingsByUserId, postRating, updateRating};
+module.exports = {  getRatingsByUserId, getThankyouImage};

@@ -4,13 +4,13 @@
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rate Service</title>
-    <link rel="icon" href="img/favicon.ico" type="image/x-icon">
+    <link rel="icon" href="res/imgs/favicon.ico" type="image/x-icon">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
     <link rel="stylesheet" href="/css/rating.css">
 </head>
 <body>
     <h2>Rate My Service</h2>
-    <form action="http://localhost:5001/api/rate/<%= userId %>" method="post" enctype="application/x-www-form-urlencoded">
+    <form action="http://localhost:5001/user/rate/<%= userId %>" method="post" enctype="application/x-www-form-urlencoded">
         <input type="hidden" name="userId" value="<%= userId %>">
     
         <label for="userId">How was your service by <%= userName %> today?</label>
@@ -33,7 +33,7 @@
         <input type="text" name="customerName" placeholder="Your Name" required>
         <br>
         <textarea name="comments" placeholder="Comments"></textarea>
-        <button id="fetchRatings" type="submit">Submit Rating</button>
+        <button id="submitRating" type="submit">Submit Rating</button>
     </form>
     <script src="/js/rating-form-script.js"></script>   
 </body>

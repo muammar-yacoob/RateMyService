@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
+const Ratings = require('../models/ratingModel');
 const CowSay = require('cowsay');
 
 //@desc Serve the rating form
@@ -12,13 +13,8 @@ const serveUserRatingPage = asyncHandler(async (req, res, next) => {
         if (!user) {
             throw new Error('User not found');
         }
-        const ipAddress = user.ipAddress;
-        if(ipAddress == req.ip){
-            res.redirect('thank-you');
-        }
-        else{
-            res.render('rating-form', { userId: userId, userName: user.name });
-        }
+
+        res.render('rating-form', { userId: userId, userName: user.name });
 
     } catch (err) {
         next(err); // Pass the error to the error handler
@@ -42,4 +38,37 @@ const serveUserProfilePage = asyncHandler(async (req, res, next) => {
     }
 });
 
-module.exports = { serveUserRatingPage, serveUserProfilePage };
+//@desc Post a rating
+//@route POST /rate/:userId
+//@access Public
+const postRating = asyncHandler(async (req, res, next) => {
+    const userId = req.params.userId;
+    const { customerName, rating = 5, comments } = req.body; // Renamed `rating` to `ratingValue`
+    const ipAddress = req.ip || req.socket.remoteAddress;
+    const ratingData = { userId, customerName, rating: rating, ipAddress, comments };
+
+    if (!userId || !customerName || !rating) {
+        throw new Error("Missing data!");
+    }
+
+    try {
+        const existingRating = await Ratings.findOne({ userId: userId, ipAddress: ipAddress });
+        let hasRated = !!existingRating;
+
+        const updatedRating = await Ratings.findOneAndUpdate(
+            { userId: userId, ipAddress: ipAddress },
+            ratingData,
+            { new: true, upsert: true }
+        );
+
+        const ratingScore= updatedRating.rating;
+        const again = hasRated ? ' again' : '';
+        console.log("Rendering thank-you with:", { ratingScore, again });
+        res.render('thank-you2', { ratingScore, again });
+
+    } catch (err) {
+        next(err);
+    }
+});
+
+module.exports = { serveUserRatingPage, serveUserProfilePage, postRating };

@@ -41,6 +41,22 @@ label {
     transform: translateY(-2px); /* Slight lift on hover */
 }
 
+#submitRating {
+    background-color: #f5a643;
+    color: rgb(255, 255, 255);
+    padding: 10px 20px;
+    border: none;
+    border-radius: 5px;
+    font-size: 1.1em;
+    cursor: pointer;
+    transition: background-color 0.3s, transform 0.3s;
+}
+
+#submitRating:hover {
+    background-color: #e09428;
+    transform: scale(1.01); /* Slight scale on hover */
+}
+
 table {
     width: 100%;
     border-collapse: collapse;

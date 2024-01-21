@@ -13,3 +13,12 @@ document.querySelectorAll('.client-star-rating input').forEach(input => {
         document.getElementById('ratingMessage').textContent = message;
     });
 });
+
+document.addEventListener("DOMContentLoaded", function () {
+    document.body.addEventListener("click", function (e) {
+        const refreshButton = e.target.closest(".submitRating");
+        if (refreshButton) {
+            e.preventDefault(); 
+        }
+    });
+});
