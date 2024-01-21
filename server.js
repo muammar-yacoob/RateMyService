@@ -18,8 +18,8 @@ app.use(express.urlencoded({ extended: true }));
 app.use(express.static('public'));
 
 // Routes
-// app.use("/api/user", require("./routes/userApiRoutes"));
-// app.use("/api/rate", require("./routes/ratingRoutes"));
+app.use("/api/user", require("./routes/userApiRoutes"));
+app.use("/api/rate", require("./routes/ratingRoutes"));
 app.use("/user", require("./routes/userPagesRoutes")); // User pages
 
 app.use(errorHandler);

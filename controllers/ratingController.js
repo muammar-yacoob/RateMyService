@@ -17,4 +17,20 @@ const getRatingsByUserId = asyncHandler(async (req, res, next) => {
     }
 });
 
-module.exports = {  getRatingsByUserId};
+//@desc Delete all ratings by userId
+//@route DELETE /api/rate/:userId
+//@access Public
+const deleteRatings = asyncHandler(async (req, res, next) => {
+    try {
+        // const ratings = await Ratings.deleteMany({ userId: req.params.userId });
+        // if (!ratings) {
+        //     throw new Error('No ratings found for this user');
+        // }
+        // res.status(200).json(`${ratings.deletedCount} ratings deleted for user ${req.params.userId}`);
+    } catch (err) {
+        next(err);
+    }
+});
+
+
+module.exports = {  getRatingsByUserId, deleteRatings};
