@@ -3,9 +3,10 @@ const User = require('../models/userModel');
 const Ratings = require('../models/ratingModel');
 const CowSay = require('cowsay');
 
-const fs = require('fs');
+const fs = require('fs').promises;  // Importing the Promise-based version of fs
 const path = require('path');
 const directoryPath = path.join(__dirname, '../public/res/imgs/thankyou');
+
 const getThankyouImage = async () => {
     try {
         const files = await fs.readdir(directoryPath);
@@ -14,11 +15,9 @@ const getThankyouImage = async () => {
         return `/res/imgs/thankyou/${selectedImage}`;
     } catch (err) {
         console.error(err);
-        return '/res/imgs/sadface.gif'; // Default image
+        return '/res/imgs/default-image.jpg'; // Fallback image
     }
 }
-
-
 
 //@desc Serve the rating form
 //@route GET /api/rate/:userId
