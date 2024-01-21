@@ -1,16 +1,16 @@
 const express = require('express');
 const router = express.Router();
-const { serveForm, serveUserProfile, getRatingsByUserId, postRating, updateRating } = 
+const { serveForm, getRatingsByUserId, postRating, updateRating ,deleteRatings} = 
 require('../controllers/ratingController');
 
 // Route for serving the form with userId
-router.get('/:userId/form', serveForm);
-router.get('/:email/userProfile', serveUserProfile);
+// router.get('/rate/:userId', serveForm);
 
 // Routes for user ratings
 router.route('/:userId')
     .get(getRatingsByUserId)
-    .post(postRating)
-    .put(updateRating);
-
+    .delete(deleteRatings);
+    // .post(postRating)
+    // .put(updateRating);
+   
 module.exports = router;
