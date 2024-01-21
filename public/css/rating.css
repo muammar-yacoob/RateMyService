@@ -2,15 +2,16 @@ body {
     color: #fff;
     background-color: #121212; /* Darker shade for background */
     background-image: url('/res/imgs/bg.jpg');
-    background-size: cover;
+    /* background-size: cover; */
     background-position: center;
     font-family: 'Roboto', Arial, sans-serif; /* Modern font */
     line-height: 1.6;
 }
 
 h1 {
-    color: #f5a643; /* Accent color for headers */
+    color: #fffefc; /* Accent color for headers */
     text-align: center;
+    text-shadow: 2px 2px 4px #000;
 }
 
 p {
@@ -171,6 +172,7 @@ input[type="text"], textarea {
 .main-content {
     margin-left: 250px; /* same as sidebar width */
     padding: 20px;
+    color
 }
 
 .ratings-section {
