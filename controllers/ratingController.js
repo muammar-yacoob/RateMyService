@@ -1,10 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const Ratings = require('../models/ratingModel');
 
-const fs = require('fs');
-const path = require('path');
-const directoryPath = path.join(__dirname, '../public/res/imgs/thankyou');
-
 
 //@desc Get all ratings by userId
 //@route GET /api/rate/:userId
@@ -21,21 +17,4 @@ const getRatingsByUserId = asyncHandler(async (req, res, next) => {
     }
 });
 
-
-const getThankyouImage = asyncHandler(async (req, res) => {
-        try {
-            fs.readdir(directoryPath, (err, files) => {
-            if (err) {
-                res.status(500).send('Error reading images');
-                return;
-            }
-            const randomIndex = Math.floor(Math.random() * files.length);
-            const selectedImage = files[randomIndex];
-            res.json({ imageUrl: `/res/imgs/thankyou/${selectedImage}` });
-        });}
-        catch (err) {
-            next(err);
-        }   
-});
-
-module.exports = {  getRatingsByUserId, getThankyouImage};
+module.exports = {  getRatingsByUserId};

@@ -3,6 +3,23 @@ const User = require('../models/userModel');
 const Ratings = require('../models/ratingModel');
 const CowSay = require('cowsay');
 
+const fs = require('fs');
+const path = require('path');
+const directoryPath = path.join(__dirname, '../public/res/imgs/thankyou');
+const getThankyouImage = async () => {
+    try {
+        const files = await fs.readdir(directoryPath);
+        const randomIndex = Math.floor(Math.random() * files.length);
+        const selectedImage = files[randomIndex];
+        return `/res/imgs/thankyou/${selectedImage}`;
+    } catch (err) {
+        console.error(err);
+        return '/res/imgs/sadface.gif'; // Default image
+    }
+}
+
+
+
 //@desc Serve the rating form
 //@route GET /api/rate/:userId
 //@access Public
@@ -38,33 +55,40 @@ const serveUserProfilePage = asyncHandler(async (req, res, next) => {
     }
 });
 
-//@desc Post a rating
-//@route POST /rate/:userId
-//@access Public
+let firstTimePosting = true; 
 const postRating = asyncHandler(async (req, res, next) => {
     const userId = req.params.userId;
-    const { customerName, rating = 5, comments } = req.body; // Renamed `rating` to `ratingValue`
+    const { customerName, rating = 5, comments } = req.body;
     const ipAddress = req.ip || req.socket.remoteAddress;
-    const ratingData = { userId, customerName, rating: rating, ipAddress, comments };
+    const ratingData = { userId, customerName, rating, ipAddress, comments };
 
     if (!userId || !customerName || !rating) {
         throw new Error("Missing data!");
     }
 
+    let hasRated = false;
+    let updatedRating;
+
     try {
-        const existingRating = await Ratings.findOne({ userId: userId, ipAddress: ipAddress });
-        let hasRated = !!existingRating;
+        if (firstTimePosting) {
+            firstTimePosting = false;
+            const existingRating = await Ratings.findOne({ userId, ipAddress });
+            hasRated = !!existingRating;
 
-        const updatedRating = await Ratings.findOneAndUpdate(
-            { userId: userId, ipAddress: ipAddress },
-            ratingData,
-            { new: true, upsert: true }
-        );
+            console.log("Posting Rating...");
+            updatedRating = await Ratings.findOneAndUpdate(
+                { userId, ipAddress },
+                ratingData,
+                { new: true, upsert: true }
+            );
+        }
 
-        const ratingScore= updatedRating.rating;
+        const ratingScore = updatedRating ? updatedRating.rating : 'N/A';
         const again = hasRated ? ' again' : '';
+        const thankYouImage = await getThankyouImage();
+
         console.log("Rendering thank-you with:", { ratingScore, again });
-        res.render('thank-you2', { ratingScore, again });
+        res.render('thank-you2', { ratingScore, again, thankYouImage});
 
     } catch (err) {
         next(err);
