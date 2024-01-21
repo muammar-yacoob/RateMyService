@@ -87,7 +87,7 @@ const postRating = asyncHandler(async (req, res, next) => {
         const thankYouImage = await getThankyouImage();
 
         console.log("Rendering thank-you with:", { ratingScore, again });
-        res.render('thank-you2', { ratingScore, again, thankYouImage});
+        res.render('thank-you', { ratingScore, again, thankYouImage});
 
     } catch (err) {
         next(err);
