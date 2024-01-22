@@ -1,14 +1,16 @@
 const mongoose = require('mongoose');
+require('dotenv').config();
 
 const connectDb = async () => {
     try {
-        // console.log('connecting to MongoDB... ',process.env.CONNECTION_STRING);
+        console.log('Connecting to MongoDB...');
         const conn = await mongoose.connect(process.env.CONNECTION_STRING);
-        console.log('connected to: ', conn.connection.name);
-        console.log('Active connections: ', conn.connection.listenerCount.length);
+        console.log('Connected to:', conn.connection.name);
+        // If you want to log more details about the connection, do it here
     } catch (error) {
-        console.log(`Error connecting to database: ${error.message}`.red);
+        console.error(`Error connecting to database: ${error.message}`);
         process.exit(1);
     }
 };
+
 module.exports = connectDb;
