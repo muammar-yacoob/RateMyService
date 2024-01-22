@@ -1,5 +1,6 @@
 const asyncHandler = require('express-async-handler');
 const Ratings = require('../models/ratingModel');
+const User = require('../models/userModel');
 const getThankyouImage = require('../utils/thankYouImageHelper.js');
 const randIP = require('../utils/generateRandomIpAddress.js');
 
@@ -26,9 +27,9 @@ let firstTimePosting = true;
 const postRating = asyncHandler(async (req, res, next) => {
     const userId = req.params.userId;
     const { customerName, rating = 5, comments } = req.body;
-    const ipAddress = req.ip || req.socket.remoteAddress;
+    let ipAddress = req.ip || req.socket.remoteAddress;
 
-    ipAddress = randIP();
+    //ipAddress = await randIP();
     const ratingData = { userId, customerName, rating, ipAddress, comments };
 
     if (!userId || !customerName || !rating) {
