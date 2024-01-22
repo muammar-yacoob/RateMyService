@@ -1,6 +1,6 @@
 function fetchAndDisplayRatings(buttonElement) {
     const userId = buttonElement.getAttribute('data-userid');
-    fetch('http://localhost:5001/api/rate/' + userId)
+    fetch('http://localhost:5001/ratings/' + userId)
         .then(response => response.json())
         .then(data => {
             displayRatings(data);

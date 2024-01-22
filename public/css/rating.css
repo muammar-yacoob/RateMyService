@@ -128,7 +128,7 @@ input[type="text"], textarea {
 }
 
 .thank-you-image {
-    max-width: 100%;
+    width: 400;
     height: 400px;
     margin-top: 20px;
     display: block;
@@ -209,6 +209,7 @@ input[type="text"], textarea {
     overflow: hidden;
     text-overflow: ellipsis;
     /* max-width: 800px; Adjust as necessary */
+    min-width: 130px; /* Adjust as necessary */
 }
 
 #ratingsTable th {

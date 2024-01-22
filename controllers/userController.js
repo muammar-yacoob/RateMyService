@@ -1,5 +1,27 @@
 const asyncHandler = require('express-async-handler');
 const User = require('../models/userModel');
+const CowSay = require('cowsay');
+
+//@desc Serve the user profile page
+//@route GET /profile/:email
+//@access Public
+const serveUserProfilePage = asyncHandler(async (req, res, next) => {
+    const email = req.params.email;
+    try {
+        const user = await User.findOne({ email: email });
+        if (!user) {
+            const msg = `User with email ${email} not found`;
+            const cowMessage = CowSay.say({ text: msg });
+            res.status(404).send(`<pre>${cowMessage}</pre>`);
+
+            return;
+        }
+        res.render('user-profile', { user: user });
+
+    } catch (err) {
+        next(err); // Pass the error to the error handler
+    }
+});
 
 //@desc Get all users
 //@route GET /api/users
@@ -73,5 +95,4 @@ const deleteUser = asyncHandler(async(req, res) => {
     }
 });
 
-
-module.exports = {getAllUsers, getUser, createUser, updateUser, deleteUser};
+module.exports = {serveUserProfilePage, getAllUsers, getUser, createUser, updateUser, deleteUser};
