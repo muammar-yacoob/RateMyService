@@ -11,6 +11,7 @@
         <img src="/res/imgs/defaultProfile.jpg" alt="Profile Picture" class="profile-pic">
         <h3><%= user.name %></h3>
         <p>Current Workplace: <%= user.workplace %></p>
+        <canvas id="qrCodeCanvas"></canvas>
         <div id="avgRatingStars"></div> 
         <div id="numericAvgRating"></div>
         <button class="sidebar-button">Settings</button>
@@ -51,5 +52,16 @@
             }
         };
     </script>
+
+<script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.0/build/qrcode.min.js"></script>
+<script>
+    // Generate the QR code
+    const QRlink = 'http://localhost:5001/ratings/rate/<%= user._id %>';
+    console.log(QRlink);
+    QRCode.toCanvas(document.getElementById('qrCodeCanvas'), QRlink, function (error) {
+        if (error) console.error(error)
+        console.log('QR Code generated!')
+    });
+</script>
 </body>
 </html>
