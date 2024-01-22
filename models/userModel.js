@@ -7,6 +7,9 @@ const usersSchema = new mongoose.Schema({
         // min_length: 3,
         // max_length: 50
     },
+    workplace: {
+        type: String,
+    },
     email: {
         type: String,
         required: true
