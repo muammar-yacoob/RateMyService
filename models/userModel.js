@@ -1,21 +1,17 @@
 const mongoose = require('mongoose');
+
 const usersSchema = new mongoose.Schema({
     name: {
         type: String,
         required: true
-        //trim: true,
-        // min_length: 3,
-        // max_length: 50
     },
     workplace: {
         type: String,
     },
     email: {
         type: String,
-        required: true
-        //trim: true,
-        // min_length: [8, 'Email cannot be less than 8 characters'],
-        // max_length: [50, 'Email cannot be more than 50 characters']
+        required: true,
+        unique: true 
     },
     signup_date: {
         type: Date,

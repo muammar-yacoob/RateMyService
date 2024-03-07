@@ -10,7 +10,8 @@
 </head>
 <body>
     <h2>Rate My Service</h2>
-    <form action="http://localhost:5001/ratings/<%= userId %>" method="post" enctype="application/x-www-form-urlencoded">
+    <form action="/api/ratings/<%= userId %>" method="post" enctype="application/x-www-form-urlencoded">
+
         <input type="hidden" name="userId" value="<%= userId %>">
     
         <label for="userId">How was your service by <%= userName %> today?</label>
