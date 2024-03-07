@@ -18,6 +18,6 @@ router.route('/api/users/:userId?')
     .put(updateUser)
     .delete(deleteUser);
 
-router.get('/profile/:email', serveUserProfilePage);
+router.get('/profile/:userId?', serveUserProfilePage);
 
 module.exports = router;

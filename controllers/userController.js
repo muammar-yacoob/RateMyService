@@ -6,11 +6,21 @@ const CowSay = require('cowsay');
 //@route GET /profile/:email
 //@access Public
 const serveUserProfilePage = asyncHandler(async (req, res, next) => {
-    const email = req.params.email;
+    const userId = req.params.userId; 
+
+    if (!userId) {
+        return res.status(400).send('userId parameter is required');
+    }
+
+    // // console.log(`Serving user with userId: ${userId}`); 
+    // if (!mongoose.Types.ObjectId.isValid(userId)) {
+    //     return res.status(400).send('Invalid userId');
+    // }
+    
     try {
-        const user = await User.findOne({ email: email });
+        const user = await User.findOne({_id: userId});
         if (!user) {
-            const msg = `User with email ${email} not found`;
+            const msg = `User with id ${userId} not found!`;
             const cowMessage = CowSay.say({ text: msg });
             res.status(404).send(`<pre>${cowMessage}</pre>`);
 
@@ -19,7 +29,7 @@ const serveUserProfilePage = asyncHandler(async (req, res, next) => {
         res.render('user-profile', { user: user });
 
     } catch (err) {
-        next(err); // Pass the error to the error handler
+        next(err); 
     }
 });
 
@@ -47,7 +57,7 @@ const getUser = asyncHandler(async (req, res) => {
         return res.status(400).send('userId parameter is required');
     }
 
-    console.log(`Getting user with userId: ${userId}`); // Corrected console.log syntax
+    // console.log(`Getting user with userId: ${userId}`);
     // if (!mongoose.Types.ObjectId.isValid(userId)) {
     //     return res.status(400).send('Invalid userId');
     // }
