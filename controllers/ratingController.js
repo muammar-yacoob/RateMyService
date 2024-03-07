@@ -67,7 +67,7 @@ const postRating = asyncHandler(async (req, res, next) => {
 });
 
 //@desc Get all ratings by userId
-//@route GET /api/rate/:userId
+//@route GET /api/ratings/:userId
 //@access Public
 const getRatingsByUserId = asyncHandler(async (req, res, next) => {
     try {

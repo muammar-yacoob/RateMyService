@@ -12,6 +12,6 @@ router.route('/api/ratings/:userId?')
     .post(postRating)
     .delete(deleteRatings);
 
-router.get('/rate/:userId?', serveUserRatingPage);
+router.get('/rate/:userId', serveUserRatingPage);
 
 module.exports = router;
