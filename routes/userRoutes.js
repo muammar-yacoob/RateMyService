@@ -9,11 +9,11 @@ const {
     serveUserProfilePage
 } = require('../controllers/userController');
 
-router.route('/api')
+router.route('/api/users')
     .get(getAllUsers)
     .post(createUser);
 
-router.route('/api/:email')
+router.route('/api/users/:userId?')
     .get(getUser)
     .put(updateUser)
     .delete(deleteUser);

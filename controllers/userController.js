@@ -27,6 +27,7 @@ const serveUserProfilePage = asyncHandler(async (req, res, next) => {
 //@route GET /api/users
 //@access Public
 const getAllUsers = asyncHandler(async (req, res) => {
+    console.log('Getting all users');
     try{
         const users = await User.find();
         res.status(200).json(users);
@@ -40,11 +41,26 @@ const getAllUsers = asyncHandler(async (req, res) => {
 //@route GET /api/users/:userId
 //@access Public
 const getUser = asyncHandler(async (req, res) => {
-    try{
-        const user = await User.findOne({userId: req.params.userId});
-        res.status(200).json(user);
+    const userId = req.params.userId; 
+
+    if (!userId) {
+        return res.status(400).send('userId parameter is required');
     }
-    catch(err){
+
+    console.log(`Getting user with userId: ${userId}`); // Corrected console.log syntax
+    // if (!mongoose.Types.ObjectId.isValid(userId)) {
+    //     return res.status(400).send('Invalid userId');
+    // }
+
+
+    try {
+        // Query based on MongoDB's _id field
+        const user = await User.findOne({_id: userId});
+        if (!user) {
+            return res.status(404).send('User not found');
+        }
+        res.status(200).json(user);
+    } catch(err) {
         res.status(500).json({error: err.message});
     }
 });

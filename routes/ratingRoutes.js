@@ -7,11 +7,11 @@ const {
     deleteRatings
 } = require('../controllers/ratingController');
 
-router.route('/:userId')
+router.route('/api/ratings/:userId?')
     .get(getRatingsByUserId)
     .post(postRating)
     .delete(deleteRatings);
 
-router.get('/rate/:userId', serveUserRatingPage);
+router.get('/rate/:userId?', serveUserRatingPage);
 
 module.exports = router;
