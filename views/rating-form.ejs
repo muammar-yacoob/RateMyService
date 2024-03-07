@@ -12,7 +12,7 @@
     <h2>Rate My Service</h2>
     <form action="/api/ratings/<%= userId %>" method="post" enctype="application/x-www-form-urlencoded">
 
-        <input  name="userId" value="<%= userId %>">
+        <input type="hidden" name="userId" value="<%= userId %>">
     
         <label for="userId">How was your service by <%= userName %> today?</label>
         <div class="client-star-rating">
