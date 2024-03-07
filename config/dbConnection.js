@@ -1,16 +1,15 @@
 const mongoose = require('mongoose');
-require('dotenv').config();
+let cachedDb = null;
 
-const connectDb = async () => {
-    try {
-        console.log('Connecting to MongoDB...');
-        const conn = await mongoose.connect(process.env.CONNECTION_STRING);
-        console.log('Connected to:', conn.connection.name);
-        // If you want to log more details about the connection, do it here
-    } catch (error) {
-        console.error(`Error connecting to database: ${error.message}`);
-        process.exit(1);
+async function connectToDatabase(uri) {
+    if (cachedDb) {
+      console.log('Using existing database connection');
+      return cachedDb;
     }
-};
+    console.log('Creating new database connection');
+    const db = await mongoose.connect(uri, { useNewUrlParser: true, useUnifiedTopology: true });
+    cachedDb = db;
+    return db;
+  }
 
-module.exports = connectDb;
+module.exports = connectToDatabase;

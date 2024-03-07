@@ -11,7 +11,7 @@ const errorHandler = require('../middleware/errorHandler');
 const app = express();
 appSetup(app);
 
-connectDb();
+connectDb(process.env.CONNECTION_STRING);
 
 //Routes
 app.use("/", userRoutes);
