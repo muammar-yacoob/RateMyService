@@ -56,7 +56,8 @@
 <script src="https://cdn.jsdelivr.net/npm/qrcode@1.4.0/build/qrcode.min.js"></script>
 <script>
     // Generate the QR code
-    const QRlink = 'http://localhost:5001/ratings/rate/<%= user._id %>';
+    const hostname = `${window.location.protocol}//${window.location.hostname}${window.location.port ? `:${window.location.port}` : ''}`;
+    const QRlink = `${hostname}/rate/<%= user._id %>`;
     console.log(QRlink);
     QRCode.toCanvas(document.getElementById('qrCodeCanvas'), QRlink, function (error) {
         if (error) console.error(error)
