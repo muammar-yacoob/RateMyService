@@ -3,6 +3,7 @@ const Ratings = require('../models/ratingModel');
 const User = require('../models/userModel');
 const getThankyouImage = require('../utils/thankYouImageHelper.js');
 const randIP = require('../utils/generateRandomIpAddress.js');
+const cowsay = require('cowsay');
 
 
 //@desc Serve the rating form
@@ -13,14 +14,19 @@ const serveUserRatingPage = asyncHandler(async (req, res, next) => {
     try {
         const user = await User.findOne({ _id: userId });
         if (!user) {
-            throw new Error('User not found');
+            const cowMessage = `User with id ${userId} not found!`;
+            res.status(500).send(`<pre>${cowMessage}</pre>`);
+            return;
         }
 
         res.render('rating-form', { userId: userId, userName: user.name });
-
-    } catch (err) {
-        next(err); // Pass the error to the error handler
     }
+        catch (err) {
+            const cowMessage = cowsay.say({ text: `Looks like this user has Mooooved!` });
+            console.log(err.message);
+            res.status(500).send(`<pre>${cowMessage}</pre>`);
+        }
+        
 });
 
 let firstTimePosting = true; 
