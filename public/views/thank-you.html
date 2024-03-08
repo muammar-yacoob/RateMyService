@@ -9,25 +9,36 @@
 </head>
 <body class="dark-mode">
     <div class="thank-you-container">
-        <h1>Thank You for rating!</h1>
+        <h1 id="thankYouMessage">Thank You for rating!</h1>
         <p>Your feedback is greatly appreciated.</p>
         <a href="/" class="refresh-button" data-action="reload">
             <img src="" alt="Thank You" class="thank-you-image" id="thankYouImage">
         </a>
         <a href="https://spark-games.co.uk" class="home-button">Return Home</a>
     </div>
-    <script src="/js/thank-you-script.js"></script>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
-            var images = [
-                "/res/thankyou (1).gif", 
-                "/res/thankyou (2).gif",
-                "/res/thankyou (3).gif",
+            const params = new URLSearchParams(window.location.search);
+            const userName = params.get('userName');
+            const images = [
+                "/res/imgs/thankyou/thankyou (1).gif", 
+                "/res/imgs/thankyou/thankyou (2).gif",
+                "/res/imgs/thankyou/thankyou (3).gif",
+                "/res/imgs/thankyou/thankyou (4).gif",
+                "/res/imgs/thankyou/thankyou (5).gif",
             ];
 
+            if (userName) {
+                document.getElementById('thankYouMessage').textContent = `Thank You, ${decodeURIComponent(userName)}, for rating!`;
+            }
+
+            // Randomly select a thank you image from the list
             var thankYouImage = document.getElementById("thankYouImage");
             thankYouImage.src = images[Math.floor(Math.random() * images.length)];
         });
     </script>
+
+<script src="/js/thank-you-script.js"></script>
+
 </body>
 </html>

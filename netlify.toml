@@ -1,7 +1,21 @@
 [build]
-functions = "functions"
+  publish = "public" # Replace "public" with your actual build output directory
+  functions = "functions"
 
+# Allow direct access to static files in the views directory
 [[redirects]]
-    to="/.netlify/functions/api/:splat"
-    from="/*"
-    status=200
+  from = "/views/*"
+  to = "/views/:splat"
+  status = 200
+
+# Allow direct access to images
+[[redirects]]
+  from = "/images/*"
+  to = "/images/:splat"
+  status = 200
+
+# Redirect all other requests to the serverless function
+[[redirects]]
+  from = "/*"
+  to = "/.netlify/functions/api/:splat"
+  status = 200
