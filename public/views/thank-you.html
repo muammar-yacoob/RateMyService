@@ -6,15 +6,23 @@
     <title>Thank You</title>
     <link rel="stylesheet" href="/css/rating.css">
     <link rel="icon" href="res/imgs/favicon.ico" type="image/x-icon">
+    <style>
+        /* Added inline CSS for body background-image */
+        body.dark-mode {
+            background-image: url('https://img.freepik.com/premium-vector/kawaii-chicken-duck-seamless-background_6997-1604.jpg');
+            background-size: cover; /* Ensure the background covers the entire page */
+            background-position: center; /* Center the background image */
+        }
+    </style>
 </head>
 <body class="dark-mode">
-    <div class="thank-you-container">
+    <div class="white-content-box">
         <h1 id="thankYouMessage">Thank You for rating!</h1>
         <p>Your feedback is greatly appreciated.</p>
         <a href="/" class="refresh-button" data-action="reload">
             <img src="" alt="Thank You" class="thank-you-image" id="thankYouImage">
-        </a>
-        <a href="https://spark-games.co.uk" class="home-button">Return Home</a>
+        </a><br>
+        <!-- <center><a href="https://spark-games.co.uk" class="home-button">Return Home</a></center> -->
     </div>
     <script>
         document.addEventListener("DOMContentLoaded", function() {
@@ -29,7 +37,7 @@
             ];
 
             if (userName) {
-                document.getElementById('thankYouMessage').textContent = `Thank You, ${decodeURIComponent(userName)}, for rating!`;
+                document.getElementById('thankYouMessage').textContent = `Thank You for rating ${decodeURIComponent(userName)}`;
             }
 
             // Randomly select a thank you image from the list
@@ -37,8 +45,6 @@
             thankYouImage.src = images[Math.floor(Math.random() * images.length)];
         });
     </script>
-
 <script src="/js/thank-you-script.js"></script>
-
 </body>
 </html>
