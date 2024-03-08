@@ -21,8 +21,11 @@ app.use("/", homeExapmleRoute);
 
 app.use(errorHandler);
 
-const PORT = process.env.PORT || 5000;
-app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
-
-// module.exports.handler = serverless(app);
-module.exports = app;
+if (process.env.MODE === 'server') {
+    // Express Server mode
+    const PORT = process.env.PORT || 5000;
+    app.listen(PORT, () => console.log(`Server listening on port ${PORT}`));
+} else {
+    // Serverless mode
+    module.exports.handler = serverless(app);
+}
