@@ -122,10 +122,6 @@ input[type="text"], textarea {
     background-color: #e09428;
 }
 
-.thank-you-container {
-    text-align: center;
-    padding: 50px 20px;
-}
 
 .thank-you-image {
     width: 400;
@@ -242,4 +238,31 @@ input[type="text"], textarea {
 #ratingMessage {
     color: #ffffff;
     margin-top: 10px;
+}
+
+.white-content-box {
+    margin: 0 auto; /* Center the box */
+    max-width: 800px; /* Set a max-width for the box */
+    background-color: #ffffffaa; /* Background color for the box */
+    border-radius: 10px; /* Rounded corners */
+    padding: 20px; /* Padding inside the box */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Optional: adds a shadow for depth */
+}
+body {
+    background-image: url('${bgImage}'); /* Your background image */
+    background-size: cover; /* Cover the entire page */
+    background-position: center; /* Center the background image */
+    font-family: Arial; /* Apply font to the whole body */
+    color: #333; /* Text color */
+    text-align: center;
+}
+h2, h3, h4, a { /* Apply styles to headings and links */
+    margin: 10px 0; /* Add some margin for spacing */
+}
+a { /* Additional link styles */
+    color: #007BFF; /* Color for links */
+    text-decoration: none; /* Remove underline from links */
+}
+a:hover { /* Style for hover state */
+    text-decoration: underline; /* Underline on hover for links */
 }

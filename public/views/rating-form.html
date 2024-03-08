@@ -1,0 +1,92 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rate Service</title>
+    <link rel="icon" href="res/imgs/favicon.ico" type="image/x-icon">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+    <link rel="stylesheet" href="/css/rating.css">
+
+    <style>
+        html, body {
+            margin: 0;
+            padding: 0;
+            height: 100%; 
+            background-image: url('/res/imgs/bg.jpg');
+            background-size: auto; 
+            background-repeat: repeat;
+            background-position: center; 
+            font-family: Arial; 
+        }
+    </style>
+
+</head>
+
+<body class="dark-mode">
+    <center>
+        <h2>Welcome to TipEase!</h2>
+    </center>
+    <form action="/api/ratings" method="post" enctype="application/x-www-form-urlencoded">
+        <input type="hidden" name="userId" value="">
+        <input type="hidden" name="ipAddress" id="ipAddress" value="">
+        <p id="ratingMessage">How was your service today?</p>
+        <div class="client-star-rating">
+            <input type="radio" id="star5" name="rating" value="5" checked>
+            <label for="star5"><i class="fa fa-star"></i></label>
+            <input type="radio" id="star4" name="rating" value="4">
+            <label for="star4"><i class="fa fa-star"></i></label>
+            <input type="radio" id="star3" name="rating" value="3">
+            <label for="star3"><i class="fa fa-star"></i></label>
+            <input type="radio" id="star2" name="rating" value="2">
+            <label for="star2"><i class="fa fa-star"></i></label>
+            <input type="radio" id="star1" name="rating" value="1">
+            <label for="star1"><i class="fa fa-star"></i></label>
+        </div>
+        <div id="ratingMessage"></div>
+        <br>
+        <input type="text" name="customerName" placeholder="Your Name" required>
+        <br>
+        <textarea name="comments" placeholder="Comments"></textarea>
+        <button id="submitRating" type="submit">Submit Rating</button>
+    </form>
+    <script src="/js/rating-form-script.js"></script>
+
+    <script>
+        window.onload = async function () {
+            const params = new URLSearchParams(window.location.search);
+            const userId = params.get('userId');
+            const userName = params.get('userName');
+
+
+            if (userId) {
+                try {
+                    // Fetching username
+                    // const response = await fetch(`/api/
+                    // if (!response.ok) {
+                    //     throw new Error('Failed to fetch user details');
+                    // }
+                    // const userData = await response.json();
+                    document.querySelector('form').action = `/api/ratings/${userId}`;
+                    document.querySelector('input[name="userId"]').value = userId;
+
+                    document.getElementById('ratingMessage').textContent = `How was your service by ${userName} today?`;
+
+                    // Fetch the client's IP address and set it as the value of the hidden input
+                    fetch('https://api.ipify.org?format=json')
+                        .then(response => response.json())
+                        .then(data => {
+                            document.getElementById('ipAddress').value = data.ip;
+                        })
+                        .catch(error => console.error('Error fetching IP address:', error));
+
+                } catch (error) {
+                    console.error('Error fetching user details:', error);
+                    // Optionally handle the error, e.g., show a default message
+                }
+            }
+        };
+    </script>
+</body>
+</html>
