@@ -7,8 +7,8 @@
     "node": "18.x"
   },
   "scripts": {
-    "start": "node server.js",
-    "dev": "nodemon --inspect server.js",
+    "start": "node functions/api.js",
+    "dev": "nodemon --inspect functions/api.js",
     "netdev": "netlify dev",
     "netbuild": "netlify deploy --prod"
   },
