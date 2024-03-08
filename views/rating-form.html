@@ -10,11 +10,9 @@
 </head>
 <body>
     <h2>Rate My Service</h2>
-    <form action="/api/ratings/<%= userId %>" method="post" enctype="application/x-www-form-urlencoded">
-
-        <input type="hidden" name="userId" value="<%= userId %>">
-    
-        <label for="userId">How was your service by <%= userName %> today?</label>
+    <form action="/api/ratings" method="post" enctype="application/x-www-form-urlencoded">
+        <input type="hidden" name="userId" value="">
+        <p id="serviceQuestion">How was your service today?</p> 
         <div class="client-star-rating">
             <input type="radio" id="star5" name="rating" value="5" checked >
             <label for="star5"><i class="fa fa-star"></i></label>
@@ -28,14 +26,25 @@
             <label for="star1"><i class="fa fa-star"></i></label>
         </div>
         <div id="ratingMessage"></div>
-
-    
         <br>
         <input type="text" name="customerName" placeholder="Your Name" required>
         <br>
         <textarea name="comments" placeholder="Comments"></textarea>
         <button id="submitRating" type="submit">Submit Rating</button>
     </form>
-    <script src="/js/rating-form-script.js"></script>   
+    <script src="/js/rating-form-script.js"></script>
+    
+    <script>
+        window.onload = function() {
+            const params = new URLSearchParams(window.location.search);
+            const userId = params.get('userId');
+            const userName = params.get('userName');
+            if(userId && userName) {
+                document.querySelector('form').action = `/api/ratings/${userId}`;
+                document.querySelector('input[name="userId"]').value = userId;
+                document.getElementById('serviceQuestion').textContent = `How was your service by ${userName} today?`;
+            }
+        };
+    </script>
 </body>
 </html>
