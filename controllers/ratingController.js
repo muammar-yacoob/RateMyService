@@ -33,43 +33,33 @@ const serveUserRatingPage = asyncHandler(async (req, res, next) => {
         
 });
 
-let firstTimePosting = true; 
-
 const postRating = asyncHandler(async (req, res, next) => {
     const userId = req.params.userId;
-    const { customerName, rating = 5, comments } = req.body;
-    let ipAddress = req.ip || req.socket.remoteAddress;
-
-    // Assuming randIP() is not required as we are using the real IP address now.
-    const ratingData = { userId, customerName, rating, ipAddress, comments };
-
+    const { customerName, rating = 5, comments, ipAddress } = req.body;
+    
+    // Validate required fields
     if (!userId || !customerName) {
         return res.status(400).json({ message: "Missing required data!" });
     }
 
-    let updatedRating;
-
     try {
-        if (firstTimePosting) {
-            firstTimePosting = false;
-            const existingRating = await Ratings.findOne({ userId, ipAddress });
-            const hasRated = !!existingRating;
+        // Always update or insert the rating for given userId and ipAddress
+        console.log("Creating or Updating Rating...");
+        const updatedRating = await Ratings.findOneAndUpdate(
+            { userId, ipAddress },
+            { userId, customerName, rating, comments, ipAddress },
+            { new: true, upsert: true } // Upsert to create a new document if one doesn't exist
+        );
 
-            if (!hasRated) {
-                console.log("Creating or Updating Rating...");
-                updatedRating = await Ratings.findOneAndUpdate(
-                    { userId, ipAddress },
-                    ratingData,
-                    { new: true, upsert: true }
-                );
-            }
-        }
-
-        const encodedUserId = encodeURIComponent(userId);
+        // Fetch user details for redirection URL
         const user = await User.findOne({ _id: userId });
+        if (!user) {
+            return res.status(404).json({ message: "User not found!" });
+        }
+        const encodedUserId = encodeURIComponent(userId);
         const encodedUserName = encodeURIComponent(user.name);
 
-        // Redirect URL updated to be compliant with serving static HTML and passing parameters for client-side JS to use
+        // Redirect after the database operations complete
         const redirectUrl = `/views/thank-you.html?userId=${encodedUserId}&userName=${encodedUserName}`;
         return res.redirect(redirectUrl);
 
@@ -85,9 +75,9 @@ const postRating = asyncHandler(async (req, res, next) => {
 //@access Public
 const getRatingsByUserId = asyncHandler(async (req, res, next) => {
     try {
-        const ratings = await Ratings.find({ userId: req.params.userId });
-        if (!ratings) {
-            throw new Error('No ratings found for this user');
+        const ratings = await Ratings.find({ userId: req.params.userId }).sort({ ratingDate: -1 }); 
+        if (!ratings || ratings.length === 0) {
+            return res.status(404).json({ message: 'No ratings found for this user' });
         }
         res.status(200).json(ratings);
     } catch (err) {
