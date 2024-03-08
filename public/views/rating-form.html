@@ -25,7 +25,7 @@
     <form action="/api/ratings" method="post" enctype="application/x-www-form-urlencoded">
         <input type="hiddenx" name="userId" value="">
         <input type="hiddenx" name="ipAddress" id="ipAddress" value="">
-        <p id="serviceQuestion">How was your service today?</p> 
+        <p id="ratingMessage">How was your service today?</p> 
         <div class="client-star-rating">
             <input type="radio" id="star5" name="rating" value="5" checked >
             <label for="star5"><i class="fa fa-star"></i></label>
@@ -55,7 +55,7 @@
             if(userId && userName) {
                 document.querySelector('form').action = `/api/ratings/${userId}`;
                 document.querySelector('input[name="userId"]').value = userId;
-                document.getElementById('serviceQuestion').textContent = `How was your service by ${userName} today?`;
+                document.getElementById('ratingMessage').textContent = `How was your service by ${userName} today?`;
             }
 
             // Fetch the client's IP address and set it as the value of the hidden input
