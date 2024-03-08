@@ -9,6 +9,8 @@
     <style>
         body.dark-mode {
             background-image: url('https://img.freepik.com/premium-vector/kawaii-chicken-duck-seamless-background_6997-1604.jpg');
+            /* background-image: url('/res/imgs/bg.jpg'); */
+            
             background-repeat: repeat; 
             background-position: center; 
             background-size: auto; 
@@ -29,21 +31,18 @@
         document.addEventListener("DOMContentLoaded", function() {
             const params = new URLSearchParams(window.location.search);
             const userName = params.get('userName');
-            const images = [
-                "/res/imgs/thankyou/thankyou (1).jpg", 
-                "/res/imgs/thankyou/thankyou (2).jpg",
-                "/res/imgs/thankyou/thankyou (3).jpg",
-                "/res/imgs/thankyou/thankyou (4).jpg",
-                "/res/imgs/thankyou/thankyou (5).jpg",
-            ];
-
+            
+            // Dynamically generate the image source
+            const imageNumber = Math.floor(Math.random() * 12) + 1; // Generates a number between 1 and 12
+            const imageSrc = `/res/imgs/thankyou/thankyou (${imageNumber}).jpg`;
+    
             if (userName) {
                 document.getElementById('thankYouMessage').textContent = `Thank You for rating ${decodeURIComponent(userName)}`;
             }
-
-            // Randomly select a thank you image from the list
+    
+            // Set the source for the thank you image
             var thankYouImage = document.getElementById("thankYouImage");
-            thankYouImage.src = images[Math.floor(Math.random() * images.length)];
+            thankYouImage.src = imageSrc;
         });
     </script>
 <script src="/js/thank-you-script.js"></script>
