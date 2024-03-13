@@ -5,7 +5,6 @@ const connectDb = require('../config/dbConnection');
 const appSetup = require('../config/appSetup');
 const userRoutes = require('../routes/userRoutes');
 const ratingRoutes = require('../routes/ratingRoutes');
-const homeExapmleRoute = require('../routes/homeExampleRoute');
 const errorHandler = require('../middleware/errorHandler');
 
 const app = express();
@@ -16,7 +15,6 @@ connectDb(process.env.CONNECTION_STRING);
 //Routes
 app.use("/", userRoutes);
 app.use("/", ratingRoutes);
-app.use("/", homeExapmleRoute);
 
 
 app.use(errorHandler);

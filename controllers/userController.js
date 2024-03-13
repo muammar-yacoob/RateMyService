@@ -3,9 +3,7 @@ const User = require('../models/userModel');
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { OAuth2Client } = require('google-auth-library');
 const sendEmail = require('../utils/emailService');
-const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 //#region Authentication and account management routes
 /**
