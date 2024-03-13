@@ -30,6 +30,6 @@ router.post('/api/users/forgot-password', forgotPassword);
 router.post('/api/users/reset-password/:token', resetPassword);
 
 //Usage route
-router.get('/', (_req, res) => res.sendFile(path.join(__dirname, '..', 'public', 'views', 'usage.html')));
+// router.get('/', (_req, res) => res.sendFile(path.join(__dirname, '..', 'public', 'views', 'usage.html')));
 
 module.exports = router;
