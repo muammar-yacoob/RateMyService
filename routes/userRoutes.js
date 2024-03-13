@@ -3,21 +3,28 @@ const router = express.Router();
 const {
     getAllUsers,
     getUser,
-    createUser,
     updateUser,
     deleteUser,
-    serveUserProfilePage
+    
+    signUpUser,
+    verifyEmail, 
+    loginUser,
+    forgotPassword,
+    resetPassword,
 } = require('../controllers/userController');
 
-router.route('/api/users')
-    .get(getAllUsers)
-    .post(createUser);
+// User management routes
+router.get('/api/users', getAllUsers);
 
-router.route('/api/users/:userId?')
-    .get(getUser)
-    .put(updateUser)
-    .delete(deleteUser);
+router.get('/api/users/:userId', getUser);
+router.put('/api/users/:userId', updateUser);
+router.delete('/api/users/:userId', deleteUser);
 
-router.get('/profile/:userId?', serveUserProfilePage);
+// Authentication and account management routes
+router.post('/api/users/signup', signUpUser);
+router.get('/api/users/verify-email/:token', verifyEmail); 
+router.post('/api/users/login', loginUser);
+router.post('/api/users/forgot-password', forgotPassword);
+router.post('/api/users/reset-password/:token', resetPassword);
 
 module.exports = router;
