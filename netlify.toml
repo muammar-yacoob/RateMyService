@@ -4,6 +4,11 @@
 
 # Allow direct access to static files in the views directory
 [[redirects]]
+  from = "/"
+  to = "/views/usage.html"
+  status = 200
+  
+[[redirects]]
   from = "/views/*"
   to = "/views/:splat"
   status = 200
@@ -19,3 +24,4 @@
   from = "/*"
   to = "/.netlify/functions/api/:splat"
   status = 200
+
