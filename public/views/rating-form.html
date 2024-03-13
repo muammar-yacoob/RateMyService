@@ -68,7 +68,7 @@
                     //     throw new Error('Failed to fetch user details');
                     // }
                     // const userData = await response.json();
-                    document.querySelector('form').action = `/api/ratings/${userId}`;
+                    document.querySelector('form').action = `/rate/${userId}`;
                     document.querySelector('input[name="userId"]').value = userId;
 
                     document.getElementById('ratingMessage').textContent = `How was your service by ${userName} today?`;
