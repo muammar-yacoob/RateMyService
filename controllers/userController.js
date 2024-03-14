@@ -3,7 +3,9 @@ const User = require('../models/userModel');
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const sendEmail = require('../utils/emailService');
+
+const emailjsService = require('../utils/emailjsService');
+const emailService = new emailjsService;
 
 //#region Authentication and account management routes
 /**
@@ -29,7 +31,8 @@ const signUpUser = asyncHandler(async (req, res) => {
 
     const verifyEmailUrl = `${req.protocol}://${req.get('host')}/api/users/verify-email/${verificationToken}`;
 
-    await sendEmail({
+    print(verifyEmailUrl);
+    await emailService.sendEmail({
         to: user.email,
         subject: "Verify Your Email Address",
         text: `Hello ${user.name},\n\nPlease verify your email address by clicking on the link below:\n${verifyEmailUrl}\n\nIf you did not create an account, no further action is required.`
