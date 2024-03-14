@@ -24,6 +24,10 @@ const usersSchema = new mongoose.Schema({
         // Validator: [validator.isStrongPassword, 'Please enter a strong password']
     },
 
+    verificationToken: {
+        type: String,
+    },
+
     profilePicture: {
         type: String,
     },

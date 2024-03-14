@@ -3,9 +3,8 @@ const User = require('../models/userModel');
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
+const { debug } = require('console');
 
-const emailjsService = require('../utils/emailjsService');
-const emailService = new emailjsService;
 
 //#region Authentication and account management routes
 /**
@@ -22,23 +21,29 @@ const signUpUser = asyncHandler(async (req, res) => {
     }
     const hashedPassword = await bcrypt.hash(password, 10);
     const verificationToken = crypto.randomBytes(20).toString('hex');
+    const hashedToken = crypto.createHash('sha256').update(verificationToken).digest('hex');
     const user = await User.create({
         name, 
         email, 
         password: hashedPassword,
-        verificationToken: crypto.createHash('sha256').update(verificationToken).digest('hex')
+        verificationToken: hashedToken
     });
+
+    console.log(`Verification token (plain): ${verificationToken}`);
+    console.log(`Verification token (hashed): ${hashedToken}`);
 
     const verifyEmailUrl = `${req.protocol}://${req.get('host')}/api/users/verify-email/${verificationToken}`;
+    console.log(verifyEmailUrl);
 
-    print(verifyEmailUrl);
-    await emailService.sendEmail({
-        to: user.email,
-        subject: "Verify Your Email Address",
-        text: `Hello ${user.name},\n\nPlease verify your email address by clicking on the link below:\n${verifyEmailUrl}\n\nIf you did not create an account, no further action is required.`
-    });
 
-    res.status(201).json({ _id: user.id, name: user.name, email: user.email });
+
+    // await emailService.sendEmail({
+    //     to: user.email,
+    //     subject: "Verify Your Email Address",
+    //     text: `Hello ${user.name},\n\nPlease verify your email address by clicking on the link below:\n${verifyEmailUrl}\n\nIf you did not create an account, no further action is required.`
+    // });
+
+    res.status(201).send(`${user.name} created. Confirm email: ${verifyEmailUrl}`);
 });
 
 /**
@@ -48,6 +53,9 @@ const verifyEmail = asyncHandler(async (req, res) => {
     const { token } = req.params;
     const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
 
+    console.log(`Verifying token (received): ${token}`);
+    console.log(`Verifying token (hashed): ${hashedToken}`);
+
     const user = await User.findOne({
         verificationToken: hashedToken
     });
@@ -56,7 +64,7 @@ const verifyEmail = asyncHandler(async (req, res) => {
         res.status(400).send('Invalid token');
     }
 
-    user.verified = true;
+    user.email_confirmed = true;
     user.verificationToken = undefined;
     await user.save();
 
