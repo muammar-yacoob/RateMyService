@@ -3,7 +3,8 @@ const User = require('../models/userModel');
 const crypto = require('crypto');
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
-const { debug } = require('console');
+// const mailService = require('../utils/gmailService');
+const mailService = require('../utils/zohoService');
 
 
 //#region Authentication and account management routes
@@ -23,8 +24,8 @@ const signUpUser = asyncHandler(async (req, res) => {
     const verificationToken = crypto.randomBytes(20).toString('hex');
     const hashedToken = crypto.createHash('sha256').update(verificationToken).digest('hex');
     const user = await User.create({
-        name, 
-        email, 
+        name,
+        email,
         password: hashedPassword,
         verificationToken: hashedToken
     });
@@ -96,7 +97,7 @@ const forgotPassword = asyncHandler(async (req, res) => {
     const { email } = req.body;
     const user = await User.findOne({ email });
     if (!user) {
-        // res.status(404).throw Error('User not found');
+        res.status(404).send('User not found');
     }
 
     const resetToken = crypto.randomBytes(20).toString('hex');
@@ -105,16 +106,23 @@ const forgotPassword = asyncHandler(async (req, res) => {
     await user.save();
 
     const resetLink = `${req.protocol}://${req.get('host')}/reset-password/${resetToken}`;
-    sendEmail({
-        to: user.email,
-        subject: "Password Reset Request",
-        text: `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n
+    try {
+        const result = mailService.sendEmail({
+            to: user.email,
+            subject: "Password Reset Request",
+            text: `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n
                Please click on the following link, or paste this into your browser to complete the process within 10 minutes of receiving it:\n\n
                ${resetLink}\n\n
                If you did not request this, please ignore this email and your password will remain unchanged.`
-    });
+        });
+        res.status(200).json({ message: `Password reset link sent to ${user.email}` });
+        console.log(result);
+    }
+    catch (error) {
+        res.status(500).send(`Error sending email: ${error}`);
+        console.log(error);
+    }
 
-    res.status(200).json({ success: true, message: 'Email sent' });
 });
 
 /**
