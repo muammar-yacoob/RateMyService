@@ -189,7 +189,8 @@ const resetPassword = asyncHandler(async (req, res, next) => {
     user.resetPasswordExpire = undefined;
     await user.save();
 
-    res.status(200).json({ success: true, message: 'Password updated successfully' });
+    const cowMessage = cowsay.say({ text: `Password updated successfully!` });
+    res.status(200).send(`<pre>${cowMessage}</pre>`);
 });
 
 
