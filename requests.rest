@@ -1,5 +1,5 @@
 ### List Susu
-GET http://localhost:5000/api/users/65a6f9e56f27407ce65cc8f4xx HTTP/1.1
+GET http://localhost:5000/api/users/65a6f9e56f27407ce65cc8f4 HTTP/1.1
 
 ### List Users
 GET http://localhost:5000/api/users HTTP/1.1

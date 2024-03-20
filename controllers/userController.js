@@ -6,6 +6,7 @@ const jwt = require('jsonwebtoken');
 // const mailService = require('../utils/gmailService');
 // const mailService = require('../utils/zohoService');
 const mailService = require('../utils/mockMail');
+const cowsay = require('cowsay');
 
 
 //#region Authentication and account management routes
@@ -14,48 +15,66 @@ const mailService = require('../utils/mockMail');
  */
 const signUpUser = asyncHandler(async (req, res, next) => {
     const { name, email, password } = req.body;
+
     if (!name || !email || !password) {
         const error = new Error('Missing name, email, or password');
         error.statusCode = 400;
         return next(error);
     }
-    const userExists = await User.findOne({ email });
-    if (userExists) {
-        const error = new Error('User already exists');
+
+    let user = await User.findOne({ email });
+
+    // If user exists but hasn't verified their email, resend the verification email
+    if (user && !user.email_confirmed) {
+        const verificationToken = crypto.randomBytes(20).toString('hex');
+        const hashedToken = crypto.createHash('sha256').update(verificationToken).digest('hex');
+        user.verificationToken = hashedToken;
+        await user.save();
+
+        // Resend the verification email
+        const verifyEmailUrl = `${req.protocol}://${req.get('host')}/api/users/verify-email/${verificationToken}`;
+        await mailService.sendEmail({
+            to: user.email,
+            subject: "Verify Your Email Address",
+            text: `Hello ${user.name},\n\nPlease verify your email address by clicking on the link below:\n${verifyEmailUrl}\n\nIf you did not create an account, no further action is required.`
+        });
+
+        return res.status(200).send(`Verification email resent to ${user.email}. Please check your inbox.`);
+    } else if (user) {
+        // If user exists and has verified their email, return an error
+        const error = new Error('User already exists and email is verified');
         error.statusCode = 400;
         return next(error);
     }
+
+    // If new user, proceed with creation and send verification email
     const hashedPassword = await bcrypt.hash(password, 10);
     const verificationToken = crypto.randomBytes(20).toString('hex');
     const hashedToken = crypto.createHash('sha256').update(verificationToken).digest('hex');
 
     try {
-        const user = await User.create({
+        user = await User.create({
             name,
             email,
             password: hashedPassword,
-            verificationToken: hashedToken
+            verificationToken: hashedToken,
+            email_confirmed: false // Ensure this is set to false initially
         });
 
-        console.log(`Verification token (plain): ${verificationToken}`);
-        console.log(`Verification token (hashed): ${hashedToken}`);
-
         const verifyEmailUrl = `${req.protocol}://${req.get('host')}/api/users/verify-email/${verificationToken}`;
-        console.log(verifyEmailUrl);
-
-        await emailService.sendEmail({
+        await mailService.sendEmail({
             to: user.email,
             subject: "Verify Your Email Address",
             text: `Hello ${user.name},\n\nPlease verify your email address by clicking on the link below:\n${verifyEmailUrl}\n\nIf you did not create an account, no further action is required.`
         });
 
         res.status(201).send(`${user.name} created. Confirm email: ${verifyEmailUrl}`);
-    }
-    catch (error) {
+    } catch (error) {
         error.statusCode = 500;
         next(error);
     }
 });
+
 
 
 /**
@@ -65,32 +84,31 @@ const verifyEmail = asyncHandler(async (req, res, next) => {
     const { token } = req.params;
     const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
 
-    console.log(`Verifying token (received): ${token}`);
+    // It's generally safe to log non-sensitive data; adjust logging as per your privacy policy
     console.log(`Verifying token (hashed): ${hashedToken}`);
 
     try {
         const user = await User.findOne({
-            verificationToken: hashedToken
+            verificationToken: hashedToken,
         });
 
         if (!user) {
-            const error = new Error('Invalid token');
-            error.statusCode = 400;
-            return next(error);
+            // const cowMessage = cowsay.say({ text: `Email verification failed!` });
+            const cowMessage = cowsay.say({ text: `Your token's so expired, even I wouldn't eat it. And I eat grass. Time for a new one!` });
+            return res.status(400).send(`<pre>${cowMessage}</pre>`);
         }
 
         user.email_confirmed = true;
         user.verificationToken = undefined;
         await user.save();
 
-        res.status(200).json({ message: 'Email verified successfully' });
-    }
-    catch (error) {
-        error.statusCode = 500;
+        const cowMessage = cowsay.say({ text: `Email verified successfully!` });
+        res.status(200).send(`<pre>${cowMessage}</pre>`);
+
+    } catch (error) {
         next(error);
     }
-}
-);
+});
 
 /**
  * Logs in a user and returns a token.
