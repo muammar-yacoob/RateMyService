@@ -142,33 +142,25 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
 
     const resetToken = crypto.randomBytes(20).toString('hex');
     user.resetPasswordToken = crypto.createHash('sha256').update(resetToken).digest('hex');
-    user.resetPasswordExpire = Date.now() + 10 * 60 * 1000;
+    user.resetPasswordExpire = Date.now() + 10 * 60 * 1000; // Token expires in 10 minutes
 
-    try {
-        await user.save(); // Ensure this operation completes or throws
+    await user.save(); // Save the updated user information
 
-        const resetLink = `${req.protocol}://${req.get('host')}/api/users/reset-password/${resetToken}`;
+    const resetLink = `${req.protocol}://${req.get('host')}/views/reset-password-page.html?token=${resetToken}`;
 
-        // Await the email sending operation and handle potential errors
-        await mailService.sendEmail({
-            to: user.email,
-            subject: "Password Reset Request",
-            text: `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\n
-                   Please click on the following link, or paste this into your browser to complete the process within 10 minutes of receiving it:\n\n
-                   ${resetLink}\n\n
-                   If you did not request this, please ignore this email and your password will remain unchanged.`
-        });
+    // For resetPassword, ensure you're hashing the token from the request the same way as when saving.
 
-        return res.status(200).json({ message: `Password reset link sent to ${user.email}` });
-    }
-    catch (error) {
-        user.resetPasswordToken = undefined;
-        user.resetPasswordExpire = undefined;
-        await user.save();
-        error.statusCode = 500;
-        next(error);
-    }
+
+
+    await mailService.sendEmail({
+        to: user.email,
+        subject: "Password Reset Request",
+        text: `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\nPlease click on the following link, or paste it into your browser to complete the process within 10 minutes of receiving it:\n\n${resetLink}\n\nIf you did not request this, please ignore this email and your password will remain unchanged.`
+    });
+
+    res.status(200).json({ message: `Password reset link sent to ${user.email}.` });
 });
+
 
 
 /**
@@ -176,41 +168,28 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
  */
 const PASSWORD_HASH_COST = 10;
 const resetPassword = asyncHandler(async (req, res, next) => {
-    const { token } = req.params;
-    const { password } = req.body;
+    const { token, password } = req.body;
 
-    // Validate input
     if (!token || !password) {
-        const error = new Error('Missing token or password');
-        error.statusCode = 400;
-        return next(error);
+        return next(new Error('Missing token or password', 400));
     }
 
-    try {
-        const resetPasswordToken = crypto.createHash('sha256').update(token).digest('hex');
-        const user = await User.findOne({
-            resetPasswordToken,
-            resetPasswordExpire: { $gt: Date.now() }
-        });
+    const hashedToken = crypto.createHash('sha256').update(token).digest('hex');
+    const user = await User.findOne({
+        resetPasswordToken: hashedToken,
+        resetPasswordExpire: { $gt: Date.now() }
+    });
 
-        if (!user) {
-            const error = new Error('Invalid or expired token');
-            error.statusCode = 401;
-            return next(error);
-        }
-
-        user.password = await bcrypt.hash(password, PASSWORD_HASH_COST);
-        user.resetPasswordToken = undefined;
-        user.resetPasswordExpire = undefined;
-
-        await user.save();
-
-        res.status(200).json({ success: true, message: 'Password updated successfully' });
+    if (!user) {
+        return next(new Error('Invalid or expired token', 401));
     }
-    catch (error) {
-        error.statusCode = 500;
-        next(error);
-    }
+
+    user.password = await bcrypt.hash(password, PASSWORD_HASH_COST);
+    user.resetPasswordToken = undefined;
+    user.resetPasswordExpire = undefined;
+    await user.save();
+
+    res.status(200).json({ success: true, message: 'Password updated successfully' });
 });
 
 
@@ -249,6 +228,23 @@ const generateToken = (id) => {
         expiresIn: '30d',
     });
 };
+
+
+/**
+ * Logs out a user.
+ */
+const logout = asyncHandler(async (req, res, next) => {
+    if (req.cookies && req.cookies['auth_cookie']) {
+        //clearing the cookie
+        res.cookie('auth_cookie', '', { expires: new Date(0), httpOnly: true, path: '/' });
+        return res.status(200).json({ message: 'Logout successful' });
+    } else {
+        return res.status(400).json({ title: "Logout Failed", message: "No active session to terminate" });
+    }
+});
+
+
+
 
 //#endregion
 
@@ -301,6 +297,6 @@ const deleteUser = asyncHandler(async (req, res, next) => {
 
 module.exports = {
     signUpUser, verifyEmail,
-    loginUser, googleSignIn, forgotPassword, resetPassword,
+    loginUser, googleSignIn, forgotPassword, resetPassword,logout,
     getAllUsers, getUser, updateUser, deleteUser,
 };

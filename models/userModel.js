@@ -31,7 +31,7 @@ const usersSchema = new mongoose.Schema({
     profilePicture: {
         type: String,
     },
-  
+
     jobTitle: {
         type: String,
         required: [false, 'Please enter your job title']
@@ -47,7 +47,15 @@ const usersSchema = new mongoose.Schema({
     signup_date: {
         type: Date,
         default: Date.now
-    },  
+    },
+
+    resetPasswordToken: {
+        type: String,
+    },
+
+    resetPasswordExpire: {
+        type: Date,
+    },
 });
 
 module.exports = mongoose.model("User", usersSchema);
