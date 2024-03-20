@@ -20,7 +20,7 @@ const usersSchema = new mongoose.Schema({
     password: {
         type: String,
         required: [true, 'Please enter your password'],
-        minlength: 8,
+        minlength: 6,
         // Validator: [validator.isStrongPassword, 'Please enter a strong password']
     },
 
