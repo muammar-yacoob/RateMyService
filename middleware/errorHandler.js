@@ -21,6 +21,7 @@ const errorHandler = (err, req, res, next) => {
             
         case constants.SERVER_ERROR:
             res.json({title: "Server Error", message: err.message, stackTrace: err.stack});
+            break;
 
             default:
                 break;
