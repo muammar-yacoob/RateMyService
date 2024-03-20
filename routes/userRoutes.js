@@ -19,8 +19,8 @@ const {
 router.get('/api/users', getAllUsers);
 
 router.get('/api/users/:userId', getUser);
-router.put('/api/users/:userId', updateUser);
-router.delete('/api/users/:userId', deleteUser);
+router.put('/api/users/:email', updateUser);
+router.delete('/api/users/:email', deleteUser);
 
 // Authentication and account management routes
 router.post('/api/users/signup', signUpUser);
