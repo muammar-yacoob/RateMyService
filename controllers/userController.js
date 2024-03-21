@@ -243,10 +243,6 @@ const logout = asyncHandler(async (req, res, next) => {
         return res.status(400).json({ title: "Logout Failed", message: "No active session to terminate" });
     }
 });
-
-
-
-
 //#endregion
 
 

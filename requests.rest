@@ -1,8 +1,11 @@
 ### List Susu
 GET http://localhost:5000/api/users/65a6f9e56f27407ce65cc8f4 HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZmI1YzQyMGU1ODc5ZjcyMDIxYjgzYSIsImlhdCI6MTcxMTA1NDg3OSwiZXhwIjoxNzEzNjQ2ODc5fQ.dcFdnOh1lKlMzBzXRNWk2UA0n_Ov5uopQKaylmk919A
+
 
 ### List Users
 GET http://localhost:5000/api/users HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZmI1YzQyMGU1ODc5ZjcyMDIxYjgzYSIsImlhdCI6MTcxMTA1NDg3OSwiZXhwIjoxNzEzNjQ2ODc5fQ.dcFdnOh1lKlMzBzXRNWk2UA0n_Ov5uopQKaylmk919A
 
 ### Login
 POST http://localhost:5000/api/users/login HTTP/1.1

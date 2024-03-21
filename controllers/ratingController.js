@@ -72,7 +72,7 @@ const postRating = asyncHandler(async (req, res, next) => {
 
 //@desc Get all ratings by userId
 //@route GET /api/ratings/:userId
-//@access Public
+//@access Private
 const getRatingsByUserId = asyncHandler(async (req, res, next) => {
     try {
         const ratings = await Ratings.find({ userId: req.params.userId }).sort({ ratingDate: -1 }); 
