@@ -5,11 +5,9 @@ const router = express.Router();
 const path = require('path');
 
 const {
-    currentUser,
+    getCurrentUser,
     getAllUsers,
-    getUser,
     updateUser,
-    deleteUser,
 
     signUpUser,
     verifyEmail,
@@ -21,11 +19,9 @@ const {
 
 
 // User management routes
-router.get('/api/users/current', authenticateToken, currentUser);
+router.get('/api/users/current', authenticateToken, isAuthenticated, getCurrentUser);
 router.get('/api/users', authenticateToken, isAuthenticated, getAllUsers);
-router.get('/api/users/:userId', authenticateToken, isAuthenticated, getUser);
 router.put('/api/users/:email', updateUser);
-// router.delete('/api/users/:email', deleteUser);
 
 // Account management routes
 router.post('/api/users/signup', signUpUser);

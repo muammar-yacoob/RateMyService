@@ -19,7 +19,7 @@ const generateToken = (_id) => jwt.sign({_id}, process.env.JWT_SECRET, {expiresI
 //@desc Get current user
 //@route GET /api/users/current
 //@access Private
-const currentUser = asyncHandler(async (req, res, next) => {
+const getCurrentUser = asyncHandler(async (req, res, next) => {
     const user = await User.findOne({ _id: req.user._id });
     if (!user) {
         const error = new Error('User not found');
@@ -269,15 +269,15 @@ const getAllUsers = asyncHandler(async (req, res, next) => {
 });
 
 /// Get a user by id
-const getUser = asyncHandler(async (req, res, next) => {
-    const user = await User.findOne({ _id: req.params.userId });
-    if (!user) {
-        const error = new Error(`User ${req.params.userId} not found`);
-        error.statusCode = 404;
-        return next(error);
-    }
-    res.status(200).json(user);
-});
+// const getUser = asyncHandler(async (req, res, next) => {
+//     const user = await User.findOne({ _id: req.params.userId });
+//     if (!user) {
+//         const error = new Error(`User ${req.params.userId} not found`);
+//         error.statusCode = 404;
+//         return next(error);
+//     }
+//     res.status(200).json(user);
+// });
 
 /// Update a user by email
 const updateUser = asyncHandler(async (req, res, next) => {
@@ -303,8 +303,8 @@ const deleteUser = asyncHandler(async (req, res, next) => {
 //#endregion
 
 module.exports = {
-    currentUser,
+    getCurrentUser,
     signUpUser, verifyEmail,
     loginUser, googleSignIn, forgotPassword, resetPassword,logout,
-    getAllUsers, getUser, updateUser, deleteUser,
+    getAllUsers, updateUser, deleteUser,
 };

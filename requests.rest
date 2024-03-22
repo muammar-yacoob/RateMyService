@@ -76,3 +76,7 @@ Content-Type: application/json
 DELETE http://localhost:5000/api/users/logout
 
 
+## Ratings
+### Rate a user
+Get http://localhost:5000/rate/65fdeefb415c074bec16892b HTTP/1.1
+
