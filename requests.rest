@@ -1,6 +1,11 @@
+### Get current user
+GET http://localhost:5000/api/users/current HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWZiNWM0MjBlNTg3OWY3MjAyMWI4M2EiLCJpYXQiOjE3MTExMzE5MzcsImV4cCI6MTcxMzcyMzkzN30.DVQH0tbHJuRBXKysmbEHaz8SBR_qF5fzs0puaV_Yn6k
+
+
 ### List Susu
 GET http://localhost:5000/api/users/65a6f9e56f27407ce65cc8f4 HTTP/1.1
-Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZmI1YzQyMGU1ODc5ZjcyMDIxYjgzYSIsImlhdCI6MTcxMTA1NDg3OSwiZXhwIjoxNzEzNjQ2ODc5fQ.dcFdnOh1lKlMzBzXRNWk2UA0n_Ov5uopQKaylmk919A
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWZiNWM0MjBlNTg3OWY3MjAyMWI4M2EiLCJpYXQiOjE3MTExMzE5MzcsImV4cCI6MTcxMzcyMzkzN30.DVQH0tbHJuRBXKysmbEHaz8SBR_qF5fzs0puaV_Yn6k
 
 
 ### List Users
@@ -64,3 +69,5 @@ Content-Type: application/json
 
 ### Logout
 DELETE http://localhost:5000/api/users/logout
+
+

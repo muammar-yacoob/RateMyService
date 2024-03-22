@@ -10,6 +10,25 @@ const cowsay = require('cowsay');
 
 
 //#region Authentication and account management routes
+
+/**
+ * Generates a JWT token for a user.
+ */
+const generateToken = (_id) => jwt.sign({_id}, process.env.JWT_SECRET, {expiresIn: '30d'});
+
+//@desc Get current user
+//@route GET /api/users/current
+//@access Private
+const currentUser = asyncHandler(async (req, res, next) => {
+    const user = await User.findOne({ _id: req.user._id });
+    if (!user) {
+        const error = new Error('User not found');
+        error.statusCode = 404;
+        return next(error);
+    }
+    res.status(200).json(user);
+});
+
 /**
  * Signs up a new user, hashes their password, and sends a verification email.
  */
@@ -221,15 +240,6 @@ const googleSignIn = asyncHandler(async (req, res, next) => {
     }
 });
 
-/**
- * Generates a JWT token for a user.
- */
-const generateToken = (id) => {
-    return jwt.sign({ id }, process.env.JWT_SECRET, {
-        expiresIn: '30d',
-    });
-};
-
 
 /**
  * Logs out a user.
@@ -293,6 +303,7 @@ const deleteUser = asyncHandler(async (req, res, next) => {
 //#endregion
 
 module.exports = {
+    currentUser,
     signUpUser, verifyEmail,
     loginUser, googleSignIn, forgotPassword, resetPassword,logout,
     getAllUsers, getUser, updateUser, deleteUser,

@@ -5,6 +5,7 @@ const router = express.Router();
 const path = require('path');
 
 const {
+    currentUser,
     getAllUsers,
     getUser,
     updateUser,
@@ -18,7 +19,9 @@ const {
     logout,
 } = require('../controllers/userController');
 
+
 // User management routes
+router.get('/api/users/current', authenticateToken, currentUser);
 router.get('/api/users', authenticateToken, isAuthenticated, getAllUsers);
 router.get('/api/users/:userId', authenticateToken, isAuthenticated, getUser);
 router.put('/api/users/:email', updateUser);
