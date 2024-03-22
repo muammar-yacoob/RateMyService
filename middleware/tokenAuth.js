@@ -9,12 +9,13 @@ const authenticateToken = asyncHandler(async (req, res, next) => {
   token = authHeader.split(' ')[1];
   if (token == null) return res.sendStatus(401);
 
-  jwt.verify(token, process.env.JWT_SECRET, (err, user) => {
+  jwt.verify(token, process.env.JWT_SECRET, (err, decoded) => {
     if (err) {
-      res.status(403);
-      throw new Error('Invalid token');
+      err.status = 403;
+      err.message = 'Invalid Token';
+      next(err);
     }
-    req.user = user;
+    req.user = {_id: decoded._id}; // Assuming the token includes the user's _id
     next();
   });
 });

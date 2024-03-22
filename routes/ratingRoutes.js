@@ -1,15 +1,16 @@
 const express = require('express');
+const { isAuthenticated, authenticateToken } = require('../middleware/tokenAuth');
+
 const router = express.Router();
 const {
     serveUserRatingPage,
-    getRatingsByUserId,
-    postRating
+    postRating,
+    getRatingsForCurrentUser
 } = require('../controllers/ratingController');
 
-router.get('/api/ratings/:userId', getRatingsByUserId);
-router.post('/rate/:userId', postRating);
-
-
 router.get('/rate/:userId', serveUserRatingPage);
+router.post('/rate/:userId', postRating);
+router.get('/api/users/ratings',  authenticateToken, isAuthenticated, getRatingsForCurrentUser);
+
 
 module.exports = router;
