@@ -1,0 +1,82 @@
+### Get current user profile. Muammar & Susu Tokens respectively.
+GET http://localhost:5000/api/users/current HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWZkZWVmYjQxNWMwNzRiZWMxNjg5MmIiLCJpYXQiOjE3MTExNDA3MjIsImV4cCI6MTcxMzczMjcyMn0.ocEZka2MqbVxIxAZnd4ylVASFU0mOLzdELvog1luMEM
+# Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWZiNWM0MjBlNTg3OWY3MjAyMWI4M2EiLCJpYXQiOjE3MTExMzE5MzcsImV4cCI6MTcxMzcyMzkzN30.DVQH0tbHJuRBXKysmbEHaz8SBR_qF5fzs0puaV_Yn6k
+
+### Get current user Ratings
+GET http://localhost:5000/api/users/ratings HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJfaWQiOiI2NWZkZWVmYjQxNWMwNzRiZWMxNjg5MmIiLCJpYXQiOjE3MTExNDA3MjIsImV4cCI6MTcxMzczMjcyMn0.ocEZka2MqbVxIxAZnd4ylVASFU0mOLzdELvog1luMEM
+
+
+### List Users
+GET http://localhost:5000/api/users HTTP/1.1
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6IjY1ZmI1YzQyMGU1ODc5ZjcyMDIxYjgzYSIsImlhdCI6MTcxMTA1NDg3OSwiZXhwIjoxNzEzNjQ2ODc5fQ.dcFdnOh1lKlMzBzXRNWk2UA0n_Ov5uopQKaylmk919A
+
+### Login
+POST http://localhost:5000/api/users/login HTTP/1.1
+content-type: application/json
+
+{
+  "email": "susu.yacoob@gmail.com",
+  "password": "test123"
+}
+
+### Forgot Password
+POST http://localhost:5000/api/users/forgot-password HTTP/1.1
+Content-Type: application/json
+
+{
+  "email": "muammar.yacoob@gmail.com"
+}
+
+### Reset Password
+POST http://localhost:5000/api/users/reset-password/1df9313c015550513909945efef004ccc9859f5e HTTP/1.1
+Content-Type: application/json
+
+{
+  "password": "test123"
+}
+
+### Update User
+PUT http://localhost:5000/api/users/muammar.yacoob@gmail.com HTTP/1.1
+
+{
+  "name": "Muammar Yacoob"
+}
+
+### Delete User
+DELETE http://localhost:5000/api/users/muammar.yacoob@gmail.com HTTP/1.1
+
+
+### Sign Up
+POST http://localhost:5000/api/users/signup HTTP/1.1
+Content-Type: application/json
+
+{
+  "name": "Susu Yacoob",
+  "password": "test123",
+  "email": "muammar.yacoob@gmail.com"
+}
+
+### Log in with email
+POST http://localhost:5000/api/users/login HTTP/1.1
+Content-Type: application/json
+
+{
+  "password": "test123",
+  "email": "susu.yacoob@gmail.com"
+}
+# {
+#   "email": "muammar.yacoob@gmail.com",
+#   "password": "bazinga"
+# }
+
+
+### Logout
+DELETE http://localhost:5000/api/users/logout
+
+
+## Ratings
+### Rate a user
+Get http://localhost:5000/rate/65fdeefb415c074bec16892b HTTP/1.1
+

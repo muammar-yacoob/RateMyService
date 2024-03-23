@@ -70,12 +70,27 @@ const postRating = asyncHandler(async (req, res, next) => {
 });
 
 
-//@desc Get all ratings by userId
-//@route GET /api/ratings/:userId
-//@access Public
-const getRatingsByUserId = asyncHandler(async (req, res, next) => {
+// //@desc Get all ratings by userId
+// //@route GET /api/ratings/:userId
+// //@access Private
+// const getRatingsByUserId = asyncHandler(async (req, res, next) => {
+//     try {
+//         const ratings = await Ratings.find({ userId: req.params.userId }).sort({ ratingDate: -1 }); 
+//         if (!ratings || ratings.length === 0) {
+//             return res.status(404).json({ message: 'No ratings found for this user' });
+//         }
+//         res.status(200).json(ratings);
+//     } catch (err) {
+//         next(err);
+//     }
+// });
+
+//@desc Get ratings for current user
+//@route GET /api/ratings
+//@access Private
+const getRatingsForCurrentUser = asyncHandler(async (req, res, next) => {
     try {
-        const ratings = await Ratings.find({ userId: req.params.userId }).sort({ ratingDate: -1 }); 
+        const ratings = await Ratings.find({ userId: req.user._id }).sort({ ratingDate: -1 });
         if (!ratings || ratings.length === 0) {
             return res.status(404).json({ message: 'No ratings found for this user' });
         }
@@ -85,19 +100,19 @@ const getRatingsByUserId = asyncHandler(async (req, res, next) => {
     }
 });
 
-//@desc Delete all ratings by userId
-//@route DELETE /api/rate/:userId
-//@access Public
-const deleteRatings = asyncHandler(async (req, res, next) => {
-    try {
-        // const ratings = await Ratings.deleteMany({ userId: req.params.userId });
-        // if (!ratings) {
-        //     throw new Error('No ratings found for this user');
-        // }
-        // res.status(200).json(`${ratings.deletedCount} ratings deleted for user ${req.params.userId}`);
-    } catch (err) {
-        next(err);
-    }
-});
+// //@desc Delete all ratings by userId
+// //@route DELETE /api/rate/:userId
+// //@access Public
+// const deleteRatings = asyncHandler(async (req, res, next) => {
+//     try {
+//         // const ratings = await Ratings.deleteMany({ userId: req.params.userId });
+//         // if (!ratings) {
+//         //     throw new Error('No ratings found for this user');
+//         // }
+//         // res.status(200).json(`${ratings.deletedCount} ratings deleted for user ${req.params.userId}`);
+//     } catch (err) {
+//         next(err);
+//     }
+// });
 
-module.exports = {serveUserRatingPage, postRating, getRatingsByUserId, deleteRatings};
+module.exports = {serveUserRatingPage, postRating, getRatingsForCurrentUser};

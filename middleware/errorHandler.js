@@ -1,7 +1,9 @@
 const {constants} = require('../constants');
 const errorHandler = (err, req, res, next) => {
-    console.log(err.stack.red);
-    const statusCode = res.statusCode? res.statusCode : 500;
+    // Use err.statusCode if it exists, otherwise default to 500
+    const statusCode = err.statusCode || 500;
+    res.status(statusCode); // Set the correct status code on the response
+
     switch (statusCode) {
         case constants.VALIDATION_FAILED:
             res.json({title: "Validation Failed", message: err.message, stackTrace: err.stack});
@@ -21,8 +23,10 @@ const errorHandler = (err, req, res, next) => {
             
         case constants.SERVER_ERROR:
             res.json({title: "Server Error", message: err.message, stackTrace: err.stack});
+            break;
 
             default:
+                res.json({title: "Error", message: err.message, stackTrace: process.env.NODE_ENV === 'development' ? err.stack : undefined});
                 break;
         }
     };

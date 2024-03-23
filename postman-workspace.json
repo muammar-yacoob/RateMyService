@@ -1,0 +1,93 @@
+{
+  "name": "TipEase API Collection",
+  "description": "Collection for testing TipEase API endpoints",
+  "folders": [],
+  "requests": [
+    {
+      "name": "List All Users",
+      "method": "GET",
+      "url": "https://tipease-api.netlify.app/api/users",
+      "headers": [],
+      "body": {}
+    },
+    {
+      "name": "Get User by ID",
+      "method": "GET",
+      "url": "https://tipease-api.netlify.app/api/users/:userId",
+      "headers": [],
+      "body": {},
+      "params": [
+        {
+          "key": "userId",
+          "value": "dummyUserId"
+        }
+      ]
+    },
+    {
+      "name": "Sign Up User",
+      "method": "POST",
+      "url": "https://tipease-api.netlify.app/api/users/signup",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mode": "raw",
+        "raw": "{\"name\": \"John Doe\", \"email\": \"johndoe@example.com\", \"password\": \"password123\"}"
+      }
+    },
+    {
+      "name": "User Login",
+      "method": "POST",
+      "url": "https://tipease-api.netlify.app/api/users/login",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mode": "raw",
+        "raw": "{\"email\": \"johndoe@example.com\", \"password\": \"password123\"}"
+      }
+    },
+    {
+      "name": "Forgot Password",
+      "method": "POST",
+      "url": "https://tipease-api.netlify.app/api/users/forgot-password",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mode": "raw",
+        "raw": "{\"email\": \"johndoe@example.com\"}"
+      }
+    },
+    {
+      "name": "Reset Password",
+      "method": "POST",
+      "url": "https://tipease-api.netlify.app/api/users/reset-password/:token",
+      "headers": [
+        {
+          "key": "Content-Type",
+          "value": "application/json"
+        }
+      ],
+      "body": {
+        "mode": "raw",
+        "raw": "{\"password\": \"newPassword123\"}"
+      },
+      "params": [
+        {
+          "key": "token",
+          "value": "dummyResetToken"
+        }
+      ]
+    }
+  ]
+}
