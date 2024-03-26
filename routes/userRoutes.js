@@ -15,6 +15,8 @@ const {
     forgotPassword,
     resetPassword,
     logout,
+
+    googleSignIn,
 } = require('../controllers/userController');
 
 
@@ -33,7 +35,8 @@ router.post('/api/users/reset-password', resetPassword);
 router.post('/api/users/login', loginUser);
 router.delete('/api/users/logout', logout);
 
-
+//Social Media Authentication routes
+router.post('/api/users/google-signin', googleSignIn);
 
 //Usage page route
 router.get('/', (_req, res) => res.sendFile(path.join(__dirname, '..', 'public', 'views', 'usage.html')));

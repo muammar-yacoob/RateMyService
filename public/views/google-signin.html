@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Google Sign-In Demo</title>
+    <script src="https://apis.google.com/js/platform.js" async defer></script>
+    <script>
+        function onSignIn(googleUser) {
+            var id_token = googleUser.getAuthResponse().id_token;
+            console.log("ID Token: " + id_token);
+
+            // Send the ID token to your server with a POST request
+            fetch('http://localhost:5000/api/users/google-signin', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({ token: id_token })
+            })
+            .then(response => response.json())
+            .then(data => console.log(data))
+            .catch(error => console.error('Error:', error));
+        }
+    </script>
+    <meta name="google-signin-client_id" content="100648325410-c71u70dp88mgd3i8j7s7cgp5rgtludrp.apps.googleusercontent.com">
+</head>
+<body>
+    <div class="g-signin2" data-onsuccess="onSignIn"></div>
+</body>
+</html>

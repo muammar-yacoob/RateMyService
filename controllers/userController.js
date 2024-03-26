@@ -8,6 +8,8 @@ const jwt = require('jsonwebtoken');
 const mailService = require('../utils/mockMail');
 const cowsay = require('cowsay');
 
+const { OAuth2Client } = require('google-auth-library');
+const googleClient = new OAuth2Client(process.env.GOOGLE_CLIENT_ID);
 
 //#region Authentication and account management routes
 
@@ -213,11 +215,11 @@ const resetPassword = asyncHandler(async (req, res, next) => {
 });
 
 
-/**
- * Allows a user to sign in with Google.
- */
+//@desc Google Sign In
+//@route POST /api/users/google-signin
+//@access Public
 const googleSignIn = asyncHandler(async (req, res, next) => {
-    const { token } = req.body;
+    const { token } = req.body; // Token received from the client
     if (!token) {
         const error = new Error('Missing token');
         error.statusCode = 400;
@@ -227,18 +229,19 @@ const googleSignIn = asyncHandler(async (req, res, next) => {
     try {
         const ticket = await googleClient.verifyIdToken({
             idToken: token,
-            audience: process.env.GOOGLE_CLIENT_ID
+            audience: process.env.GOOGLE_CLIENT_ID,
         });
-        const { name, email, picture } = ticket.getPayload();
+        const payload = ticket.getPayload();
+        const { name, email, picture } = payload;
         const user = await User.findOneAndUpdate({ email }, { name, email, picture }, { upsert: true, new: true });
-        const token = generateToken(user._id);
-        res.status(200).json({ _id, name, email, picture, token });
-    }
-    catch (error) {
+        const authToken = generateToken(user._id);
+        res.status(200).json({ _id: user._id, name, email, picture, token: authToken });
+    } catch (error) {
         error.statusCode = 500;
         next(error);
     }
 });
+
 
 
 /**
