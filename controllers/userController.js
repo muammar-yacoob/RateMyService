@@ -171,15 +171,13 @@ const forgotPassword = asyncHandler(async (req, res, next) => {
 
     // For resetPassword, ensure you're hashing the token from the request the same way as when saving.
 
-
-
     await mailService.sendEmail({
         to: user.email,
         subject: "Password Reset Request",
         text: `You are receiving this email because you (or someone else) have requested the reset of the password for your account.\n\nPlease click on the following link, or paste it into your browser to complete the process within 10 minutes of receiving it:\n\n${resetLink}\n\nIf you did not request this, please ignore this email and your password will remain unchanged.`
     });
 
-    res.status(200).json({ message: `Password reset link sent to ${user.email}.` });
+    res.status(200).json({ message: `Password reset link sent to ${user.email}.`, reset_link:`${resetLink}` });
 });
 
 
