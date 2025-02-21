@@ -131,3 +131,5 @@ dist
 .idea/
 # Local Netlify folder
 .netlify
+
+.rest
